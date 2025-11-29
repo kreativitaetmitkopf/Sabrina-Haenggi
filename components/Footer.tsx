@@ -66,6 +66,9 @@ export const Footer: React.FC = () => {
           <p className="mt-2">
             Dies ist keine Rechtsberatung. Für medizinische Notfälle wählen Sie immer die 112.
           </p>
+          <p className="mt-6 text-xs text-gray-600 font-medium">
+            Erstellt mit 🩷 von Marion Hänggi... beim Kaffee ☕ und mit Blick darauf, wie KI-Tools diese Website zum Leben erweckt
+          </p>
         </div>
       </div>
     </footer>

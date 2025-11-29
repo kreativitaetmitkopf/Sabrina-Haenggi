@@ -1,11 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button } from '../components/Button';
-import { ArrowRight, CheckCircle2, Heart, Shield, Clock, Phone, MapPin, AlertCircle } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { CheckCircle2, Heart, Clock, Phone, MapPin, AlertCircle } from 'lucide-react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { SITE_CONFIG } from '../constants';
 
 export const Home: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Handle initial hash scrolling (e.g. when coming from another page)
+  useEffect(() => {
+    if (location.hash) {
+      const id = location.hash.replace('#', '');
+      const element = document.getElementById(id);
+      if (element) {
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      }
+    }
+  }, [location]);
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -39,8 +53,8 @@ export const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* Services Section */}
-      <section id="services" className="py-20 bg-white">
+      {/* Services Section - Added scroll-mt-28 for sticky navbar offset */}
+      <section id="services" className="py-20 bg-white scroll-mt-28">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-3xl font-bold text-dark mb-4">Unser Angebot für Sie</h2>
@@ -106,23 +120,17 @@ export const Home: React.FC = () => {
               <Button 
                 variant="outline" 
                 className="w-full border-yellow-500 text-yellow-800 hover:bg-yellow-50"
-                onClick={() => {
-                  const element = document.getElementById('contact');
-                  if (element) {
-                    element.scrollIntoView({ behavior: 'smooth' });
-                    // Optional: Focus subject line if we had one, or just scroll
-                  }
-                }}
+                onClick={() => navigate('/warteliste')}
               >
-                Jetzt auf Warteliste setzen
+                Zur Warteliste & Broschüre
               </Button>
             </div>
           </div>
         </div>
       </section>
 
-      {/* For Families (Angehörige) */}
-      <section id="families" className="py-20 bg-background border-y border-gray-200">
+      {/* For Families (Angehörige) - Added scroll-mt-28 */}
+      <section id="families" className="py-20 bg-background border-y border-gray-200 scroll-mt-28">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row items-center gap-16">
             <div className="lg:w-1/2">
@@ -182,8 +190,8 @@ export const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* About Teaser */}
-      <section id="about" className="py-20 bg-white">
+      {/* About Teaser - Added scroll-mt-28 */}
+      <section id="about" className="py-20 bg-white scroll-mt-28">
         <div className="max-w-4xl mx-auto px-4 text-center">
             <div className="w-24 h-24 mx-auto bg-gray-200 rounded-full overflow-hidden mb-6 border-4 border-white shadow-lg">
                  {/* Placeholder for Sabrina Image */}
@@ -219,8 +227,8 @@ export const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section id="contact" className="py-20 bg-primary/5">
+      {/* Contact Section - Added scroll-mt-28 */}
+      <section id="contact" className="py-20 bg-primary/5 scroll-mt-28">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="bg-white rounded-3xl shadow-xl overflow-hidden">
                 <div className="grid grid-cols-1 lg:grid-cols-2">

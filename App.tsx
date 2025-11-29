@@ -7,6 +7,8 @@ import { Downloads } from './pages/Downloads';
 import { DownloadDetail } from './pages/DownloadDetail';
 import { ThankYou } from './pages/ThankYou';
 import { ConfirmSubscription } from './pages/ConfirmSubscription';
+import { Waitlist } from './pages/Waitlist';
+import { WaitlistSuccess } from './pages/WaitlistSuccess';
 import { Legal } from './pages/Legal';
 
 const App: React.FC = () => {
@@ -21,6 +23,8 @@ const App: React.FC = () => {
             <Route path="/download/:slug" element={<DownloadDetail />} />
             <Route path="/thank-you" element={<ThankYou />} />
             <Route path="/confirm" element={<ConfirmSubscription />} />
+            <Route path="/warteliste" element={<Waitlist />} />
+            <Route path="/warteliste-danke" element={<WaitlistSuccess />} />
             <Route path="/impressum" element={<Legal />} />
             <Route path="/datenschutz" element={<Legal />} />
           </Routes>

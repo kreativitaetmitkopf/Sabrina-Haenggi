@@ -23,6 +23,17 @@ This project is a high-performance web application built with React, TypeScript,
     pnpm dev
     ```
 
+## 📝 Wartelisten-Formular einrichten (Google Forms)
+
+Die Seite `/warteliste` nutzt ein eingebettetes Formular ("Native Form"), das Daten an Google Forms sendet. Damit dies funktioniert, müssen Sie die Datei `pages/Waitlist.tsx` bearbeiten:
+
+1.  Erstellen Sie ein Google Formular mit den Feldern: Vorname, Nachname, E-Mail, Telefon, Nachricht.
+2.  Öffnen Sie das Formular im Browser ("Vorschau" / Augen-Icon).
+3.  Machen Sie einen Rechtsklick auf die Seite -> "Seitenquelltext anzeigen" (View Source).
+4.  Suchen Sie (Strg+F) nach `<form action="`. Die URL darin ist die `GOOGLE_FORM_ACTION_URL`.
+5.  Suchen Sie nach den Namen der Eingabefelder. Diese sehen aus wie `entry.123456789`.
+6.  Tragen Sie diese Werte in `pages/Waitlist.tsx` im Bereich `GOOGLE_FORM_ENTRY_IDS` ein.
+
 ## 🏗 Architecture
 
 The project is structured as a Single Page Application (SPA) using React Router (HashRouter) for compatibility with static hosting environments.
@@ -31,34 +42,6 @@ The project is structured as a Single Page Application (SPA) using React Router 
 - **`/pages`**: Route views.
 - **`/constants.ts`**: Central config for contact info and text.
 - **`types.ts`**: TypeScript interfaces.
-
-## 🛠 Backend Integration (Next.js Migration Guide)
-
-While this is a client-side React app, the requirement specified a Lead Magnet flow. In a full Next.js environment, migrate as follows:
-
-1.  **Database (Supabase):**
-    Create a table `leads`:
-    ```sql
-    create table leads (
-      id uuid default uuid_generate_v4() primary key,
-      email text not null,
-      phone text,
-      download_slug text,
-      created_at timestamp with time zone default timezone('utc'::text, now())
-    );
-    ```
-
-2.  **Email Service (Resend):**
-    Create an API route `app/api/lead/route.ts` to handle form submissions, save to Supabase, and send an email via Resend.
-
-3.  **Environment Variables:**
-    Create a `.env.local` file:
-    ```env
-    NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
-    NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
-    RESEND_API_KEY=re_123456789
-    SITE_URL=https://sabrinahaenggi.com
-    ```
 
 ## 🎨 Design System
 
@@ -73,10 +56,6 @@ All German text follows strict conversion copywriting rules:
 - No use of "aber" or "weil".
 - Focus on benefits and clarity.
 - Tone: Professional, warm, reliable.
-
-## ⚖️ Legal
-
-Includes templates for Impressum and Datenschutz. **Note:** These are placeholders and do not constitute legal advice.
 
 ---
 Deployed via Vercel.

@@ -5,7 +5,7 @@ export const SITE_CONFIG = {
   role: 'Dipl. Pflegefachfrau HF',
   phone: '+34 682 187 615',
   whatsappUrl: 'https://wa.me/34682187615',
-  email: 'office@sabrinahaenggi.com',
+  email: 'haenggi.sabrina@gmail.com',
   facebookUrl: 'https://www.facebook.com/sabrina.haenggi?locale=de_DE',
 };
 
