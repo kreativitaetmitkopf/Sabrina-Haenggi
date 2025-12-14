@@ -1,5 +1,7 @@
 {
-  "name": "Sabrina Hänggi - Pflege Lanzarote",
-  "description": "Mobile Pflege und 24/7 Betreuung auf Lanzarote. Download-Center für Checklisten und Notfallmappen.",
-  "requestFramePermissions": []
+  "name": "Entspannt nach Lanzarote",
+  "description": "Eine reisefreundliche App für Senioren, um die besten Verbindungen nach Lanzarote zu finden – ob per Flug, Bahn, Fähre oder Wohnmobil.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
 }

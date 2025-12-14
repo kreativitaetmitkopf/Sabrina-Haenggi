@@ -3,41 +3,47 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sabrina Hänggi | Pflege auf Lanzarote</title>
+    <title>Entspannt nach Lanzarote</title>
+    <!-- Tailwind via CDN für einfache Handhabung -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
     <script>
       tailwind.config = {
         theme: {
           extend: {
-            colors: {
-              primary: '#6495ED', // Kornblumenblau
-              accent: '#FFC72C', // Sonnenblumengelb
-              background: '#F7F9FC',
-              dark: '#0B1220',
-            },
             fontFamily: {
-              sans: ['Inter', 'sans-serif'],
+              sans: ['"Atkinson Hyperlegible"', 'sans-serif'],
             },
-          },
-        },
+            colors: {
+              lanzarote: {
+                sand: '#fdf6e3',
+                ocean: '#5e6d5a', 
+                volcano: '#7c3a2d',
+                sky: '#eff2f0',
+                text: '#1a202c'
+              }
+            }
+          }
+        }
       }
     </script>
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
       body {
-        font-family: 'Inter', sans-serif;
-        background-color: #F7F9FC;
-        color: #0B1220;
+        background-color: #fdf6e3;
+        color: #1a202c;
       }
     </style>
-  <script type="importmap">
+<script type="importmap">
 {
   "imports": {
     "react": "https://aistudiocdn.com/react@^19.2.0",
     "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
     "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
     "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0",
-    "react-router-dom": "https://aistudiocdn.com/react-router-dom@^7.9.6"
+    "react-router-dom": "https://aistudiocdn.com/react-router-dom@^7.9.6",
+    "vite": "https://aistudiocdn.com/vite@^7.2.4",
+    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.1"
   }
 }
 </script>
@@ -45,6 +51,6 @@
 </head>
   <body>
     <div id="root"></div>
-  <script type="module" src="/index.tsx"></script>
-</body>
+    <script type="module" src="/index.tsx"></script>
+  </body>
 </html>
