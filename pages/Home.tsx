@@ -4,6 +4,13 @@ import { Button } from '../components/Button';
 import { Plane, Train, Car, Ship, Users, Caravan, Bus } from 'lucide-react';
 import { TransportMode } from '../types';
 
+// Der Bild-Link ist sehr lang und enthält Leerzeichen, daher definieren wir ihn hier sauber.
+// Wir ersetzen Leerzeichen durch %20, um sicherzustellen, dass der Browser ihn lesen kann.
+const HERO_IMAGE_URL = "https://nywbtjnupnrwxahqeilx.supabase.co/storage/v1/object/sign/Entspannt%20nach%20Lanzarote/WhatsApp%20Image%202025-07-19%20at%2011.24.21_8e0c1630.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9hMGU1OWJlNC0zNjM5LTQyM2UtODZmZC0yYzBhNGIwODE1MWYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJFbnRzcGFubnQgbmFjaCBMYW56YXJvdGUvV2hhdHNBcHAgSW1hZ2UgMjAyNS0wNy0xOSBhdCAxMS4yNC4yMV84ZTBjMTYzMC5qcGciLCJpYXQiOjE3NjU3MTEyNTYsImV4cCI6NDkxOTMxMTI1Nn0.k81ySb1fTXtg8w-HFXn2LFx_q0PIABTD_V01xbIbAAE";
+
+// Ein schönes Fallback-Bild von Lanzarote (Unsplash), falls der signierte Link abläuft oder fehlschlägt.
+const FALLBACK_IMAGE = "https://images.unsplash.com/photo-1473163928189-364b2c4e1135?q=80&w=2070&auto=format&fit=crop";
+
 export const Home: React.FC = () => {
   const navigate = useNavigate();
   const [selectedModes, setSelectedModes] = useState<TransportMode[]>([TransportMode.FLIGHT]);
@@ -22,6 +29,12 @@ export const Home: React.FC = () => {
       return;
     }
     navigate('/search', { state: { modes: selectedModes } });
+  };
+
+  // Falls das Hauptbild nicht lädt, wird automatisch das Fallback-Bild gesetzt.
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    e.currentTarget.src = FALLBACK_IMAGE;
+    e.currentTarget.onerror = null; // Verhindert Endlosschleifen
   };
 
   const ModeButton = ({ mode, icon: Icon, label }: { mode: TransportMode, icon: any, label: string }) => {
@@ -46,7 +59,8 @@ export const Home: React.FC = () => {
       
       <div className="bg-white p-6 rounded-2xl shadow-xl border-2 border-lanzarote-sand max-w-3xl w-full">
         <img 
-          src="https://nywbtjnupnrwxahqeilx.supabase.co/storage/v1/object/sign/Entspannt%20nach%20Lanzarote/WhatsApp%20Image%202025-07-19%20at%2011.24.21_8e0c1630.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9hMGU1OWJlNC0zNjM5LTQyM2UtODZmZC0yYzBhNGIwODE1MWYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJFbnRzcGFubnQgbmFjaCBMYW56YXJvdGUvV2hhdHNBcHAgSW1hZ2UgMjAyNS0wNy0xOSBhdCAxMS4yNC4yMV84ZTBjMTYzMC5qcGciLCJpYXQiOjE3NjU3MTEyNTYsImV4cCI6NDkxOTMxMTI1Nn0.k81ySb1fTXtg8w-HFXn2LFx_q0PIABTD_V01xbIbAAE" 
+          src={HERO_IMAGE_URL}
+          onError={handleImageError}
           alt="Lanzarote Landschaft" 
           className="w-full h-48 object-cover rounded-xl mb-6 shadow-sm" 
         />
