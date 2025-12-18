@@ -1,48 +1,22 @@
-export enum TransportMode {
-  FLIGHT = 'FLUG',
-  TRAIN = 'ZUG',
-  FERRY = 'FAEHRE',
-  RIDESHARE = 'MITFAHRGELEGENHEIT',
-  RENTAL_CAR = 'MIETWAGEN',
-  OWN_VEHICLE = 'EIGENES_FAHRZEUG', // Auto oder Wohnmobil
-  COACH = 'REISEBUS'
-}
-
-export enum TravelPreference {
-  CHEAPEST = 'Guenstig',
-  BALANCED = 'Preis_Leistung',
-  COMFORT = 'Komfort'
-}
-
-export interface BookingStep {
-  stepTitle: string;
-  providerName: string;
-  bookingUrl: string;
-  description: string;
-  isNavigation?: boolean; // New flag to highlight navigation steps
-}
-
-export interface TravelOption {
-  id: string;
-  mode: TransportMode;
+export interface LeadMagnet {
+  slug: string;
   title: string;
-  duration: string;
-  priceEstimate: string;
-  stressLevel: 'Niedrig' | 'Mittel' | 'Hoch';
-  routeDescription: string;
-  stops: string[];
-  pros: string[];
-  cons: string[];
-  bookingSteps: BookingStep[];
+  description: string;
+  fileName: string;
+  icon: 'file' | 'book' | 'checklist';
 }
 
-export interface SearchParams {
-  origin: string;
-  accommodation: string; // New: Target address on Lanzarote
-  startDate: string;
-  flexibilityDays: number; // +/- days
-  travelers: number;
-  hasCamper: boolean;
-  preference: TravelPreference;
-  modes: TransportMode[]; // Liste der gewählten Verkehrsmittel
+export interface LeadFormData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  consent: boolean;
+  honeypot?: string;
+}
+
+export interface NavItem {
+  label: string;
+  href: string;
+  isExternal?: boolean;
 }

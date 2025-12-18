@@ -1,31 +1,38 @@
 import React from 'react';
+import { Loader2 } from 'lucide-react';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'outline';
+  isLoading?: boolean;
   fullWidth?: boolean;
 }
 
-export const Button: React.FC<ButtonProps> = ({ 
-  children, 
-  variant = 'primary', 
-  fullWidth = false, 
-  className = '', 
-  ...props 
+export const Button: React.FC<ButtonProps> = ({
+  children,
+  variant = 'primary',
+  isLoading = false,
+  fullWidth = false,
+  className = '',
+  disabled,
+  ...props
 }) => {
-  const baseStyles = "py-4 px-8 rounded-xl text-xl font-bold transition-transform active:scale-95 focus:outline-none focus:ring-4 focus:ring-offset-2";
+  const baseStyles = "inline-flex items-center justify-center rounded-lg px-6 py-3 text-base font-medium transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm";
   
   const variants = {
-    // Updated hover to a manually darkened version of #5e6d5a and focus ring to match
-    primary: "bg-lanzarote-ocean text-white hover:bg-[#4a5647] focus:ring-[#5e6d5a] shadow-lg",
-    secondary: "bg-lanzarote-volcano text-white hover:bg-red-800 focus:ring-red-500 shadow-md",
-    outline: "border-4 border-lanzarote-ocean text-lanzarote-ocean hover:bg-lanzarote-sky"
+    primary: "bg-primary text-white hover:bg-blue-600 focus:ring-primary",
+    secondary: "bg-accent text-dark hover:bg-yellow-400 focus:ring-accent",
+    outline: "border-2 border-primary text-primary hover:bg-primary/5 focus:ring-primary",
   };
 
+  const widthClass = fullWidth ? 'w-full' : '';
+
   return (
-    <button 
-      className={`${baseStyles} ${variants[variant]} ${fullWidth ? 'w-full' : ''} ${className} disabled:opacity-50 disabled:cursor-not-allowed`}
+    <button
+      className={`${baseStyles} ${variants[variant]} ${widthClass} ${className}`}
+      disabled={disabled || isLoading}
       {...props}
     >
+      {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
       {children}
     </button>
   );

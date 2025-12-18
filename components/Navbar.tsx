@@ -12,11 +12,11 @@ export const Navbar: React.FC = () => {
   };
 
   return (
-    <nav className="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-sm border-b border-gray-100 shadow-sm">
+    <nav className="sticky top-0 z-50 w-full bg-white border-b border-gray-100 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-20 items-center">
+        <div className="flex justify-between h-20 items-center relative">
           {/* Logo */}
-          <NavLink to="/" className="flex flex-col z-50" onClick={handleNavClick}>
+          <NavLink to="/" className="flex flex-col" onClick={handleNavClick}>
             <span className="text-xl font-bold text-dark tracking-tight">
               Sabrina Hänggi
             </span>
@@ -28,18 +28,7 @@ export const Navbar: React.FC = () => {
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center space-x-8">
             {NAV_ITEMS.map((item) => {
-               // Handle anchor links on home page vs other pages
-               const isAnchor = item.href.startsWith('/#');
-               const to = isAnchor ? item.href.substring(1) : item.href;
-               
-               // Use a simple logic: if it's an anchor and we are on home, we just scroll. 
-               // If we are not on home, we link to /.
-               // Since we use HashRouter, anchors are tricky. 
-               // For this implementation, we will treat internal anchors as standard Links if not on home.
-               
-               // Simplified for HashRouter compatibility:
                const finalTo = item.href.replace('/#', '/');
-
                return (
                 <NavLink
                   key={item.label}
@@ -70,53 +59,53 @@ export const Navbar: React.FC = () => {
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="flex md:hidden z-50">
+          <div className="flex md:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-gray-600 hover:text-dark focus:outline-none"
+              className="text-gray-600 hover:text-dark focus:outline-none p-2"
               aria-label="Menü öffnen"
             >
               {isOpen ? <X size={28} /> : <Menu size={28} />}
             </button>
           </div>
+
+           {/* Mobile Menu Dropdown (Rechte obere Ecke) */}
+          {isOpen && (
+            <div className="absolute top-full right-0 w-72 bg-white shadow-2xl rounded-bl-2xl border-l border-b border-gray-100 md:hidden animate-in slide-in-from-top-2 duration-200">
+              <div className="flex flex-col p-6 space-y-4 items-end">
+                {NAV_ITEMS.map((item) => {
+                   const finalTo = item.href.replace('/#', '/');
+                   return (
+                      <NavLink
+                        key={item.label}
+                        to={finalTo}
+                        onClick={() => {
+                            handleNavClick();
+                            if (item.href.startsWith('/#') && location.pathname === '/') {
+                                 const id = item.href.substring(2);
+                                 setTimeout(() => {
+                                     const element = document.getElementById(id);
+                                     if (element) element.scrollIntoView({ behavior: 'smooth' });
+                                 }, 100);
+                            }
+                        }}
+                        className="text-lg font-medium text-gray-700 hover:text-primary text-right w-full block"
+                      >
+                        {item.label}
+                      </NavLink>
+                   );
+                })}
+                <a
+                  href={`tel:${SITE_CONFIG.phone.replace(/\s/g, '')}`}
+                  className="bg-accent text-dark px-5 py-3 rounded-lg text-center font-bold w-full mt-4 block"
+                >
+                  Jetzt anrufen
+                </a>
+              </div>
+            </div>
+          )}
         </div>
       </div>
-
-      {/* Mobile Menu Overlay */}
-      {isOpen && (
-        <div className="fixed inset-0 top-20 bg-white z-40 md:hidden animate-in slide-in-from-top-10 duration-200">
-          <div className="flex flex-col p-6 space-y-6">
-            {NAV_ITEMS.map((item) => {
-               const finalTo = item.href.replace('/#', '/');
-               return (
-                  <NavLink
-                    key={item.label}
-                    to={finalTo}
-                    onClick={() => {
-                        handleNavClick();
-                        if (item.href.startsWith('/#') && location.pathname === '/') {
-                             const id = item.href.substring(2);
-                             setTimeout(() => {
-                                 const element = document.getElementById(id);
-                                 if (element) element.scrollIntoView({ behavior: 'smooth' });
-                             }, 100);
-                        }
-                    }}
-                    className="text-xl font-medium text-dark hover:text-primary"
-                  >
-                    {item.label}
-                  </NavLink>
-               );
-            })}
-            <a
-              href={`tel:${SITE_CONFIG.phone.replace(/\s/g, '')}`}
-              className="bg-accent text-dark px-6 py-4 rounded-lg text-center font-bold"
-            >
-              Jetzt anrufen
-            </a>
-          </div>
-        </div>
-      )}
     </nav>
   );
 };

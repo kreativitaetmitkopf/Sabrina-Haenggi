@@ -9,15 +9,14 @@ export const ConfirmSubscription: React.FC = () => {
   const navigate = useNavigate();
   const [status, setStatus] = useState<'verifying' | 'success' | 'error'>('verifying');
   
-  // Im echten System käme hier ein ?token=XYZ Parameter. 
-  // Für die Demo nutzen wir den 'slug', um zu wissen, welches PDF gemeint ist.
   const slug = searchParams.get('slug');
   const magnet = LEAD_MAGNETS.find(m => m.slug === slug);
 
   useEffect(() => {
-    // Simuliert die API-Anfrage zur Token-Validierung
+    // Hier wird simuliert, dass der Token (in der echten Welt) gegen eine Datenbank geprüft wird.
+    // Da wir keinen Server haben, "vertrauen" wir dem Link, wenn ein gültiger Slug dabei ist.
     const verifyToken = async () => {
-      await new Promise(resolve => setTimeout(resolve, 2000)); // 2 Sekunden Wartezeit simulieren
+      await new Promise(resolve => setTimeout(resolve, 1500));
       
       if (magnet) {
         setStatus('success');
@@ -30,9 +29,22 @@ export const ConfirmSubscription: React.FC = () => {
   }, [magnet]);
 
   const handleDownload = () => {
-    // Hier würde der echte Download starten (z.B. window.open oder hidden a tag)
-    // Für Demo-Zwecke:
-    alert(`Der Download für "${magnet?.fileName}" wird gestartet...`);
+    if (!magnet) return;
+
+    // Erstellt einen unsichtbaren Link und klickt ihn, um den Download zu erzwingen
+    // Die PDF-Datei muss im Ordner /public/pdfs/ liegen!
+    // Beispiel: /public/pdfs/pflege-checkliste.pdf
+    const link = document.createElement('a');
+    
+    // Hinweis: In einer reinen Vite/React App ist der public folder root '/'
+    // Wir nehmen an, die PDFs liegen in einem Unterordner 'pdfs' oder direkt im Root.
+    // Passen wir es auf 'pdfs/' an, da dies sauberer ist.
+    link.href = `/pdfs/${magnet.fileName}`;
+    link.download = magnet.fileName;
+    link.target = "_blank";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   return (
@@ -43,7 +55,7 @@ export const ConfirmSubscription: React.FC = () => {
           <div className="py-12">
             <Loader2 className="w-16 h-16 text-primary animate-spin mx-auto mb-6" />
             <h2 className="text-xl font-bold text-dark">E-Mail wird bestätigt...</h2>
-            <p className="text-gray-500 mt-2">Bitte haben Sie einen Moment Geduld.</p>
+            <p className="text-gray-500 mt-2">Wir prüfen Ihre Anfrage.</p>
           </div>
         )}
 
@@ -52,9 +64,9 @@ export const ConfirmSubscription: React.FC = () => {
             <div className="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-6">
               <AlertTriangle className="text-red-500 w-10 h-10" />
             </div>
-            <h2 className="text-2xl font-bold text-dark mb-4">Link ungültig</h2>
+            <h2 className="text-2xl font-bold text-dark mb-4">Link ungültig oder abgelaufen</h2>
             <p className="text-gray-600 mb-8">
-              Der Bestätigungslink ist abgelaufen oder ungültig. Bitte fordern Sie den Download erneut an.
+              Wir konnten den Download nicht finden. Bitte starten Sie den Vorgang erneut.
             </p>
             <Button onClick={() => navigate('/downloads')}>
               Zurück zu den Downloads
@@ -68,26 +80,30 @@ export const ConfirmSubscription: React.FC = () => {
               <CheckCircle2 className="text-green-600 w-10 h-10" />
             </div>
             
-            <h1 className="text-2xl font-bold text-dark mb-2">Anmeldung erfolgreich!</h1>
+            <h1 className="text-2xl font-bold text-dark mb-2">Vielen Dank!</h1>
             <p className="text-gray-600 mb-8">
-              Vielen Dank für Ihre Bestätigung. Ihr Download steht nun bereit.
+              Ihre E-Mail wurde bestätigt.
             </p>
 
-            <div className="bg-gray-50 p-6 rounded-xl mb-8 border border-gray-100">
-                <p className="font-semibold text-dark mb-1">{magnet.title}</p>
-                <p className="text-xs text-gray-500">{magnet.fileName}</p>
+            <div className="bg-blue-50 p-6 rounded-xl mb-8 border border-blue-100 text-left">
+                <p className="font-bold text-primary mb-1">Ihr Download ist bereit:</p>
+                <p className="font-medium text-dark">{magnet.title}</p>
             </div>
 
-            <Button onClick={handleDownload} fullWidth size="lg" className="shadow-lg shadow-blue-500/20">
+            <Button onClick={handleDownload} fullWidth size="lg" className="shadow-lg shadow-blue-500/20 bg-accent text-dark hover:bg-yellow-400">
               <Download className="mr-2 h-5 w-5" />
               Jetzt PDF herunterladen
             </Button>
             
+            <div className="mt-8 text-xs text-gray-400">
+               Sollte der Download nicht starten, prüfen Sie bitte, ob Sie einen Pop-up Blocker aktiviert haben.
+            </div>
+            
             <button 
                 onClick={() => navigate('/')}
-                className="mt-6 text-sm text-gray-400 hover:text-dark transition-colors"
+                className="mt-6 text-sm text-gray-500 hover:text-primary transition-colors underline"
             >
-                Zurück zur Website
+                Zurück zur Startseite
             </button>
           </div>
         )}
