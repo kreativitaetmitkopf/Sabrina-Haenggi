@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { LEAD_MAGNETS } from '../constants';
 import { LeadForm } from '../components/LeadForm';
 import { CheckCircle2, ArrowLeft } from 'lucide-react';
+import { SEO } from '../components/SEO';
 
 export const DownloadDetail: React.FC = () => {
   const { slug } = useParams();
@@ -12,6 +13,7 @@ export const DownloadDetail: React.FC = () => {
   if (!magnet) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center p-4">
+        <SEO title="Download nicht gefunden" description="Fehlerseite" path={`/download/${slug}`} />
         <h1 className="text-2xl font-bold text-dark mb-4">Download nicht gefunden</h1>
         <button onClick={() => navigate('/downloads')} className="text-primary hover:underline">
           Zurück zur Übersicht
@@ -26,6 +28,13 @@ export const DownloadDetail: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-background py-12 px-4 sm:px-6">
+      <SEO 
+        title={magnet.title}
+        description={`Kostenloser Download: ${magnet.description} Sichern Sie sich jetzt das PDF von Sabrina Hänggi.`}
+        path={`/download/${magnet.slug}`}
+        type="article"
+      />
+      
       <div className="max-w-6xl mx-auto">
         <button 
           onClick={() => navigate('/downloads')}

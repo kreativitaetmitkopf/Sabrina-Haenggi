@@ -3,6 +3,7 @@ import { Button } from '../components/Button';
 import { CheckCircle2, Heart, Clock, Phone, MapPin, AlertCircle } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { SITE_CONFIG } from '../constants';
+import { SEO } from '../components/SEO';
 
 export const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -21,8 +22,53 @@ export const Home: React.FC = () => {
     }
   }, [location]);
 
+  // JSON-LD für Lokales Unternehmen
+  const localBusinessSchema = {
+    "@context": "https://schema.org",
+    "@type": "MedicalBusiness",
+    "name": "Sabrina Hänggi - Pflege auf Lanzarote",
+    "image": "https://sabrinahaenggi.com/og-image.jpg",
+    "telephone": SITE_CONFIG.phone,
+    "email": SITE_CONFIG.email,
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Calle la Rosa 14",
+      "addressLocality": "Costa Teguise",
+      "addressRegion": "Lanzarote",
+      "postalCode": "35508",
+      "addressCountry": "ES"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 28.995,
+      "longitude": -13.59
+    },
+    "priceRange": "$$",
+    "description": "Deutschsprachige mobile Pflege und 24/7 Betreuung auf Lanzarote. Professionell, herzlich und zuverlässig.",
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday"
+      ],
+      "opens": "00:00",
+      "closes": "23:59"
+    }
+  };
+
   return (
     <div className="flex flex-col min-h-screen">
+      <SEO 
+        title="Mobile Pflege & 24/7 Betreuung Lanzarote"
+        description="Ihr deutscher Pflegedienst auf Lanzarote. Mobile Pflege, medizinische Versorgung und 24h Pflege-WG in Costa Teguise. Jetzt beraten lassen."
+        path="/"
+        schema={localBusinessSchema}
+      />
       
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-[#F0F5FF] to-white py-20 lg:py-32 overflow-hidden">
@@ -109,7 +155,7 @@ export const Home: React.FC = () => {
                 Tragen Sie sich unverbindlich auf unsere Warteliste ein. So informieren wir Sie priorisiert, sobald ein Platz frei wird.
               </p>
               <ul className="space-y-3 mb-8">
-                {['24 Stunden Anwesenheit', 'Gemeinsame Mahlzeiten & Aktivitäten', 'Barrierefreies Wohnen', 'Deutsche Standards'].map(item => (
+                {['24 Stunden Anwesenheit', 'Gemeinsame Mahlzeiten & Aktivitäten', 'Barrierefreies Wohnen', 'Deutsch-schweizerischer Standard'].map(item => (
                   <li key={item} className="flex items-center text-gray-700">
                     <CheckCircle2 className="w-5 h-5 text-primary mr-3 flex-shrink-0" />
                     {item}
@@ -141,6 +187,9 @@ export const Home: React.FC = () => {
                         src="https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
                         alt="Älteres Paar am Strand" 
                         className="object-cover w-full h-full"
+                        loading="lazy"
+                        width="1000"
+                        height="667"
                     />
                   </div>
                </div>
@@ -196,8 +245,9 @@ export const Home: React.FC = () => {
             <div className="w-32 h-32 mx-auto bg-gray-200 rounded-full overflow-hidden mb-6 border-4 border-white shadow-lg">
                  <img 
                     src="https://hrafwiucqvqblnsvmupg.supabase.co/storage/v1/object/sign/Sabrina%20Haenggi/1729801576845.jpeg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9iOWE0OTQ2MC04MDExLTQ5NzktYWE3OC01MTkwYTllNjhhODMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJTYWJyaW5hIEhhZW5nZ2kvMTcyOTgwMTU3Njg0NS5qcGVnIiwiaWF0IjoxNzY0NTk3Mjg0LCJleHAiOjQ5MTgxOTcyODR9.c7rHZsb0T2MqyMYbfTB0B86QeGRiOzcrSHGh8TCZa0o" 
-                    alt="Sabrina Hänggi"
+                    alt="Sabrina Hänggi, Pflegeexpertin Lanzarote"
                     className="w-full h-full object-cover"
+                    loading="lazy"
                  />
             </div>
             <h2 className="text-3xl font-bold text-dark mb-4">Über Sabrina Hänggi</h2>
@@ -205,7 +255,7 @@ export const Home: React.FC = () => {
             <p className="text-gray-600 leading-relaxed mb-8">
                 Nach jahrelanger Erfahrung in der Notfallmedizin in der Schweiz habe ich meinen Lebensmittelpunkt nach Lanzarote verlegt. 
                 Hier verbinde ich Schweizer Qualitätsanspruch mit der kanarischen Herzlichkeit. 
-                Mein Ziel ist es, Menschen ein sicheres Leben in ihrer Wunschheimat zu ermöglichen.
+                Mein Ziel ist es, mit schweizerischer Präzision Menschen ein sicheres Leben in ihrer Wunschheimat zu ermöglichen.
             </p>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
                 <div className="p-4 bg-gray-50 rounded-lg">

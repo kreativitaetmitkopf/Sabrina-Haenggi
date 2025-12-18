@@ -3,15 +3,22 @@ import { useNavigate } from 'react-router-dom';
 import { LEAD_MAGNETS } from '../constants';
 import { Button } from '../components/Button';
 import { FileText, Download } from 'lucide-react';
+import { SEO } from '../components/SEO';
 
 export const Downloads: React.FC = () => {
   const navigate = useNavigate();
 
   return (
     <div className="min-h-screen bg-background py-20 px-4">
+      <SEO 
+        title="Wissenswertes & Checklisten für Pflege auf Lanzarote"
+        description="Laden Sie kostenlose Checklisten, Notfallmappen und E-Books zur Pflege auf den Kanaren herunter. Hilfreiche Vorlagen für Angehörige."
+        path="/downloads"
+      />
+      
       <div className="max-w-7xl mx-auto">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <h1 className="text-4xl font-bold text-dark mb-6">Wissenswertes & Checklisten</h1>
+          <h1 className="text-4xl font-bold text-dark mb-6" id="wissenswertes">Wissenswertes & Checklisten</h1>
           <p className="text-lg text-gray-600">
             Nutzen Sie unsere kostenlosen Vorlagen, um Sicherheit und Klarheit zu gewinnen. 
             Speziell für die Pflege-Situation auf den Kanaren entwickelt.
