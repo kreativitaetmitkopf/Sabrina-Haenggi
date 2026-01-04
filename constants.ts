@@ -1,3 +1,4 @@
+
 import { LeadMagnet, NavItem } from './types';
 
 export const SITE_CONFIG = {
@@ -12,6 +13,7 @@ export const SITE_CONFIG = {
 export const NAV_ITEMS: NavItem[] = [
   { label: 'Leistungen', href: '/#services' },
   { label: 'Über Sabrina', href: '/#about' },
+  { label: 'Aktuelles', href: '/aktuelles' },
   { label: 'Für Angehörige', href: '/#families' },
   { label: 'Downloads', href: '/downloads' },
   { label: 'Kontakt', href: '/#contact' },

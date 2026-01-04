@@ -85,7 +85,7 @@ export const Home: React.FC = () => {
             </h1>
             <p className="text-lg text-gray-600 mb-8 leading-relaxed max-w-lg">
               Ob mobile Pflege vor Ort oder 24/7 Betreuung in unserer Pflege-WG: 
-              Wir schaffen Lebensqualität. Deutschsprachig, professionell und herzlich.
+              Wir schaffen Lebensqualität. Deutschsprachig, professionell and herzlich.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Button onClick={() => navigate('/downloads')} className="shadow-lg shadow-blue-500/20">
@@ -244,7 +244,7 @@ export const Home: React.FC = () => {
         <div className="max-w-4xl mx-auto px-4 text-center">
             <div className="w-32 h-32 mx-auto bg-gray-200 rounded-full overflow-hidden mb-6 border-4 border-white shadow-lg">
                  <img 
-                    src="https://hrafwiucqvqblnsvmupg.supabase.co/storage/v1/object/sign/Sabrina%20Haenggi/1729801576845.jpeg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9iOWE0OTQ2MC04MDExLTQ5NzktYWE3OC01MTkwYTllNjhhODMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJTYWJyaW5hIEhhZW5nZ2kvMTcyOTgwMTU3Njg0NS5qcGVnIiwiaWF0IjoxNzY0NTk3Mjg0LCJleHAiOjQ5MTgxOTcyODR9.c7rHZsb0T2MqyMYbfTB0B86QeGRiOzcrSHGh8TCZa0o" 
+                    src="https://pcwnewwubyeirwazxqdz.supabase.co/storage/v1/object/sign/Profilbild/1729801576845.jpeg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9hNTA5MmI2MC05MTA4LTQ2MjEtOWMwMS1iZjRkNjgxZjY4MzMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJQcm9maWxiaWxkLzE3Mjk4MDE1NzY4NDUuanBlZyIsImlhdCI6MTc2NjA4NzQ4NCwiZXhwIjo0OTE5Njg3NDg0fQ.-ZstWhzKY0e0MS0PWq39xsAHV0IMU6klT03R4q6TwlU" 
                     alt="Sabrina Hänggi, Pflegeexpertin Lanzarote"
                     className="w-full h-full object-cover"
                     loading="lazy"
