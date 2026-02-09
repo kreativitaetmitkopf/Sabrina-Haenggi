@@ -8,13 +8,14 @@ export const SITE_CONFIG = {
   whatsappUrl: 'https://wa.me/34682187615',
   email: 'haenggi.sabrina@gmail.com',
   facebookUrl: 'https://www.facebook.com/sabrina.haenggi?locale=de_DE',
+  whitepaperId: '1Xs3JbwtMFbjLZXlyFChOMUspMT_Ht-ZnWIVdxTMSrsE',
 };
 
 export const NAV_ITEMS: NavItem[] = [
   { label: 'Leistungen', href: '/#services' },
   { label: 'Über Sabrina', href: '/#about' },
-  { label: 'Aktuelles', href: '/aktuelles' },
   { label: 'Für Angehörige', href: '/#families' },
+  { label: 'Aktuelles', href: '/#news' },
   { label: 'Downloads', href: '/downloads' },
   { label: 'Kontakt', href: '/#contact' },
 ];

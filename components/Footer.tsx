@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { SITE_CONFIG } from '../constants';
@@ -12,7 +13,7 @@ export const Footer: React.FC = () => {
           <div>
             <h3 className="text-xl font-bold mb-4">{SITE_CONFIG.name}</h3>
             <p className="text-gray-400 mb-6 leading-relaxed">
-              Professionelle Pflege mit Herz auf Lanzarote. 
+              Professionelle Pflege unter Palmen auf Lanzarote. 
               Sicherheit und Lebensqualität für Sie und Ihre Angehörigen. 
               Rund um die Uhr erreichbar.
             </p>
