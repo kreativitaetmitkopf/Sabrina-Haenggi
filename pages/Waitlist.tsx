@@ -35,14 +35,13 @@ export const Waitlist: React.FC = () => {
           </p>
 
           <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <div style={{ width: '100%', maxWidth: '760px', border: '1px solid rgba(0,0,0,.10)', borderRadius: '16px', overflow: 'hidden', backgroundColor: '#fff' }}>
+            <div className="form-container" style={{ width: '100%', maxWidth: '760px', border: '1px solid rgba(0,0,0,.10)', borderRadius: '16px', overflow: 'hidden', backgroundColor: '#fff', WebkitOverflowScrolling: 'touch' }}>
               <iframe
                 src="https://docs.google.com/forms/d/e/1FAIpQLScMak3YAUCWt2fdBmY2b_CKgX8LCTqCQTcismqDxABx0tOxWA/viewform?embedded=true"
-                style={{ border: 0, width: '100%', height: '980px' }}
+                style={{ border: 0, width: '100%', height: '980px', minWidth: '100%' }}
                 frameBorder="0"
                 marginHeight={0}
                 marginWidth={0}
-                loading="lazy"
                 title="Warteliste Formular"
               >
                 Wird geladen…

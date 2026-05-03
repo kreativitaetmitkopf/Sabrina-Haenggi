@@ -5,6 +5,9 @@ import { CheckCircle2, Heart, Clock, Phone, MapPin, AlertCircle, ChevronDown, Fa
 import { useNavigate, useLocation } from 'react-router-dom';
 import { SITE_CONFIG } from '../constants';
 import { SEO } from '../components/SEO';
+import profileImage from '../assets/Über Sabrina Website.jpg.jpeg';
+import heroImage from '../assets/HeaderBild Sabrina .png';
+import angehoerigenImage from '../assets/Angehörigen Bild.png';
 
 const FAQ_ITEMS = [
   {
@@ -40,9 +43,6 @@ const FAQ_ITEMS = [
     answer: "Bei medizinischen Notfällen gilt immer: 112. Deswegen sprechen wir im Pflegeplan auch über Notfallwege, Kontaktketten und wichtige Unterlagen."
   }
 ];
-
-const HERO_IMAGE_URL = "https://pcwnewwubyeirwazxqdz.supabase.co/storage/v1/object/sign/Headerbild/IMG_1356.jpeg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9hNTA5MmI2MC05MTA4LTQ2MjEtOWMwMS1iZjRkNjgxZjY4MzMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJIZWFkZXJiaWxkL0lNR18xMzU2LmpwZWciLCJpYXQiOjE3NzA2NDkyMTAsImV4cCI6NDg5MjcxMzIxMH0.RMPIQ2YlIkfgQ1C2FWRJ4S9tIpPmBP_Knk8YKG8rS5o"; 
-const PROFILE_IMAGE_URL = "https://pcwnewwubyeirwazxqdz.supabase.co/storage/v1/object/sign/Profilbild/1729801576845.jpeg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9hNTA5MmI2MC05MTA4LTQ2MjEtOWMwMS1iZjRkNjgxZjY4MzMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJQcm9maWxiaWxkLzE3Mjk4MDE1NzY4NDUuanBlZyIsImlhdCI6MTc3MDY0ODQ5MCwiZXhwIjo0ODkyNzEyNDkwfQ.VMuiAtrTCqWcQmJFLflEv2KvXsmV3XbsQkwU5w3qf_U";
 
 export const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -159,7 +159,7 @@ export const Home: React.FC = () => {
               <div className="relative">
                 <div className="relative bg-white p-3 rounded-[3rem] shadow-2xl border border-gray-100">
                   <img 
-                    src={HERO_IMAGE_URL} 
+                    src={heroImage} 
                     alt="Sabrina Hänggi bei der Pflege auf Lanzarote" 
                     className="rounded-[2.5rem] w-full h-[400px] lg:h-[600px] object-cover shadow-inner" 
                     loading="eager"
@@ -230,9 +230,8 @@ export const Home: React.FC = () => {
                 <Clock className="text-yellow-600 w-9 h-9" />
               </div>
               <h3 className="text-2xl font-bold text-dark mb-2">24/7 Private Pflege-WG</h3>
-              <p className="text-xs font-bold text-red-500 mb-4 bg-red-50 inline-block px-2 py-1 rounded">Aktuell vollständig ausgebucht</p>
-              <p className="text-gray-600 mb-8 leading-relaxed flex-grow">
-                Rund-um-die-Uhr Betreuung in familiärer Atmosphäre in Costa Teguise. Ideal als dauerhafte Lösung oder als temporäre Entlastung für Angehörige.
+               <p className="text-gray-600 mb-8 leading-relaxed flex-grow">
+                Rund-um-die-hunderte Betreuung in familiärer Atmosphäre in Costa Teguise. Ideal als dauerhafte Lösung oder als temporäre Entlastung für Angehörige.
               </p>
               <ul className="space-y-4 mb-10">
                 {['24 Stunden Anwesenheit', 'Urlaubs- & Verhinderungspflege', 'Gemeinsame Mahlzeiten & Aktivitäten', 'Barrierefreies Wohnen nach CH-Standard'].map(item => (
@@ -259,7 +258,7 @@ export const Home: React.FC = () => {
                   <div className="absolute -inset-4 bg-primary/10 rounded-[3rem] rotate-2 group-hover:rotate-1 transition-transform"></div>
                   <div className="relative bg-white p-3 rounded-[2.5rem] shadow-2xl">
                     <img 
-                      src="https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?auto=format&fit=crop&w=1000&q=80" 
+                      src={angehoerigenImage} 
                       alt="Älteres Paar genießt die Zeit am Meer" 
                       className="rounded-[2rem] h-96 w-full object-cover" 
                       loading="lazy" 
@@ -313,7 +312,7 @@ export const Home: React.FC = () => {
         <div className="max-w-4xl mx-auto px-4 text-center">
             <div className="w-48 h-48 mx-auto rounded-full overflow-hidden mb-10 border-8 border-white shadow-2xl ring-1 ring-gray-100">
                  <img 
-                  src={PROFILE_IMAGE_URL} 
+                  src={profileImage} 
                   alt="Sabrina Hänggi - Dipl. Pflegefachfrau HF" 
                   className="w-full h-full object-cover" 
                   loading="lazy"
@@ -347,9 +346,12 @@ export const Home: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-3xl font-bold text-dark mb-4 uppercase tracking-widest">Aktuelles</h2>
-            <h3 className="text-xl font-semibold text-primary mb-6">Einblicke in unsere tägliche Arbeit.</h3>
+            <h3 className="text-xl font-semibold text-primary mb-6">Einblicke in unsere tägliche Arbeit direkt aus Costa Teguise.</h3>
+            <p className="text-gray-600 text-lg leading-relaxed mb-4">
+              Folgen Sie mir auf Social Media für praktische Pflege-Tipps auf den Kanaren, Updates aus dem Alltag und echte Einblicke hinter die Kulissen.
+            </p>
             <p className="text-gray-600 text-lg leading-relaxed">
-              Folgen Sie mir auf Social Media für praktische Tipps zur Pflege auf den Kanaren und Neuigkeiten direkt aus Costa Teguise.
+              Hier teilen wir auch Kundenfeedback und Erfahrungsberichte, damit Sie ein Gefühl bekommen, wie sich die Zusammenarbeit wirklich anfühlt.
             </p>
           </div>
 

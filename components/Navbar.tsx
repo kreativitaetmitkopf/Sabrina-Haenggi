@@ -28,11 +28,10 @@ export const Navbar: React.FC = () => {
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center space-x-8">
             {NAV_ITEMS.map((item) => {
-               const finalTo = item.href.replace('/#', '/');
                return (
                 <NavLink
                   key={item.label}
-                  to={item.href.startsWith('/#') && location.pathname === '/' ? item.href.substring(1) : finalTo}
+                  to={item.href}
                   className="text-sm font-medium text-gray-600 hover:text-primary transition-colors"
                   onClick={(e) => {
                      if (item.href.startsWith('/#') && location.pathname === '/') {
@@ -41,6 +40,7 @@ export const Navbar: React.FC = () => {
                         const element = document.getElementById(id);
                         if (element) {
                             element.scrollIntoView({ behavior: 'smooth' });
+                            window.history.pushState(null, '', item.href);
                         }
                      }
                   }}
@@ -72,20 +72,22 @@ export const Navbar: React.FC = () => {
            {/* Mobile Menu Dropdown (Rechte obere Ecke) */}
           {isOpen && (
             <div className="absolute top-full right-0 w-72 bg-white shadow-2xl rounded-bl-2xl border-l border-b border-gray-100 md:hidden animate-in slide-in-from-top-2 duration-200">
-              <div className="flex flex-col p-6 space-y-4 items-end">
+               <div className="flex flex-col p-6 space-y-4 items-end">
                 {NAV_ITEMS.map((item) => {
-                   const finalTo = item.href.replace('/#', '/');
                    return (
                       <NavLink
                         key={item.label}
-                        to={finalTo}
+                        to={item.href}
                         onClick={() => {
                             handleNavClick();
                             if (item.href.startsWith('/#') && location.pathname === '/') {
                                  const id = item.href.substring(2);
                                  setTimeout(() => {
                                      const element = document.getElementById(id);
-                                     if (element) element.scrollIntoView({ behavior: 'smooth' });
+                                     if (element) {
+                                         element.scrollIntoView({ behavior: 'smooth' });
+                                         window.history.pushState(null, '', item.href);
+                                     }
                                  }, 100);
                             }
                         }}

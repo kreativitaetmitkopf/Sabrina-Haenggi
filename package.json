@@ -4,9 +4,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "dev": "node --experimental-strip-types server.ts & vite",
+    "build": "vite build && npm run build:server",
+    "build:server": "esbuild server.ts --bundle --platform=node --format=esm --packages=external --outfile=dist/server.js",
+    "preview": "vite preview",
+    "start": "node dist/server.js"
   },
   "dependencies": {
     "react": "^19.2.0",
@@ -17,14 +19,18 @@
     "path": "^0.12.7",
     "@supabase/supabase-js": "^2.86.0",
     "process": "^0.11.10",
-    "next": "^16.0.7",
     "crypto": "^1.0.1",
     "fs": "^0.0.1-security",
-    "resend": "^6.5.2"
+    "resend": "^6.5.2",
+    "express": "^4.21.0",
+    "cors": "^2.8.5"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",
+    "@types/express": "^4.17.21",
+    "@types/cors": "^2.8.17",
     "@vitejs/plugin-react": "^5.0.0",
+    "esbuild": "^0.25.0",
     "typescript": "~5.8.2",
     "vite": "^6.2.0"
   }
