@@ -231,7 +231,7 @@ export const Home: React.FC = () => {
               </div>
               <h3 className="text-2xl font-bold text-dark mb-2">24/7 Private Pflege-WG</h3>
                <p className="text-gray-600 mb-8 leading-relaxed flex-grow">
-                Rund-um-die-hunderte Betreuung in familiärer Atmosphäre in Costa Teguise. Ideal als dauerhafte Lösung oder als temporäre Entlastung für Angehörige.
+                Rund-um-die-hunderte Betreuung in familiärer Atmosphäre in Tahíche. Ideal als dauerhafte Lösung oder als temporäre Entlastung für Angehörige.
               </p>
               <ul className="space-y-4 mb-10">
                 {['24 Stunden Anwesenheit', 'Urlaubs- & Verhinderungspflege', 'Gemeinsame Mahlzeiten & Aktivitäten', 'Barrierefreies Wohnen nach CH-Standard'].map(item => (
