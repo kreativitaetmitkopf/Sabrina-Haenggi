@@ -34,7 +34,7 @@ const MOCK_POSTS: SocialPost[] = [
     id: '3',
     date: 'Vor 2 Wochen',
     category: 'Team News',
-    text: 'Sonnige Grüße aus Costa Teguise! Wir haben aktuell wieder Kapazitäten für die mobile Grundpflege frei. Meldet euch gerne für ein unverbindliches Erstgespräch. ☀️',
+    text: 'Sonnige Grüße aus Lanzarote! Wir haben aktuell wieder Kapazitäten für die mobile Grundpflege frei. Meldet euch gerne für ein unverbindliches Erstgespräch. ☀️',
     image: 'https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
     likes: '56',
   },

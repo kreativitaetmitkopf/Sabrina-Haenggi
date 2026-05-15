@@ -28,7 +28,7 @@ export const Legal: React.FC = () => {
             <p>
               Sabrina Hänggi<br/>
               Calle la Rosa 14<br/>
-              35508 Costa Teguise, Lanzarote (Spanien)<br/>
+              35508 Tahíche, Lanzarote (Spanien)<br/>
               E-Mail: {SITE_CONFIG.email}
             </p>
 
@@ -54,7 +54,7 @@ export const Legal: React.FC = () => {
               Sabrina Hänggi<br/>
               Dipl. Pflegefachfrau HF / Expertin Notfallpflege<br/>
               Calle la Rosa 14<br/>
-              35508 Costa Teguise<br/>
+              35508 Tahíche<br/>
               Lanzarote / Spanien
             </p>
 

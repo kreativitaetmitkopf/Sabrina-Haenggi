@@ -71,7 +71,7 @@ export const Home: React.FC = () => {
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "Calle la Rosa 14",
-      "addressLocality": "Costa Teguise",
+      "addressLocality": "Lanzarote",
       "addressRegion": "Lanzarote",
       "postalCode": "35508",
       "addressCountry": "ES"
@@ -97,7 +97,7 @@ export const Home: React.FC = () => {
     <div className="flex flex-col min-h-screen relative">
       <SEO 
         title="Mobile Pflege & 24/7 Betreuung Lanzarote"
-        description="Ihr deutscher Pflegedienst auf Lanzarote. Mobile Pflege, medizinische Versorgung und 24h Pflege-WG in Costa Teguise. Jetzt beraten lassen."
+        description="Ihr deutscher Pflegedienst auf Lanzarote. Mobile Pflege, medizinische Versorgung und 24h Pflege-WG. Jetzt beraten lassen."
         path="/"
         schema={localBusinessSchema}
       />
@@ -231,7 +231,7 @@ export const Home: React.FC = () => {
               </div>
               <h3 className="text-2xl font-bold text-dark mb-2">24/7 Private Pflege-WG</h3>
                <p className="text-gray-600 mb-8 leading-relaxed flex-grow">
-                Rund-um-die-hunderte Betreuung in familiärer Atmosphäre in Tahíche. Ideal als dauerhafte Lösung oder als temporäre Entlastung für Angehörige.
+                Rund um die Uhr Betreuung in familiärer Atmosphäre in Tahíche. Ideal als dauerhafte Lösung oder als temporäre Entlastung für Angehörige.
               </p>
               <ul className="space-y-4 mb-10">
                 {['24 Stunden Anwesenheit', 'Urlaubs- & Verhinderungspflege', 'Gemeinsame Mahlzeiten & Aktivitäten', 'Barrierefreies Wohnen nach CH-Standard'].map(item => (
@@ -346,7 +346,7 @@ export const Home: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-3xl font-bold text-dark mb-4 uppercase tracking-widest">Aktuelles</h2>
-            <h3 className="text-xl font-semibold text-primary mb-6">Einblicke in unsere tägliche Arbeit direkt aus Costa Teguise.</h3>
+            <h3 className="text-xl font-semibold text-primary mb-6">Einblicke in unsere tägliche Arbeit direkt aus Lanzarote.</h3>
             <p className="text-gray-600 text-lg leading-relaxed mb-4">
               Folgen Sie mir auf Social Media für praktische Pflege-Tipps auf den Kanaren, Updates aus dem Alltag und echte Einblicke hinter die Kulissen.
             </p>
@@ -356,14 +356,86 @@ export const Home: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16 items-start">
-             <div className="bg-background p-2 rounded-3xl shadow-sm border border-gray-100 overflow-hidden flex justify-center h-[500px]">
-                <iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fsabrina.haenggi%2Fposts%2Fpfbid0LdaHwAubVp77a3BRZSFVao9Tuc38MwM4JpEN7VRGmgHRE88FHCRx6axpQsqdL2xXl&show_text=true&width=500" width="100%" height="100%" style={{border:'none',overflow:'hidden'}} scrolling="no" frameBorder="0" allowFullScreen={true} allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+             {/* Facebook Card 1 */}
+             <div className="bg-white rounded-3xl shadow-lg border border-gray-100 overflow-hidden flex flex-col h-full hover:shadow-xl transition-shadow cursor-pointer" onClick={() => window.open('https://www.facebook.com/sabrina.haenggi/posts/pfbid0LdaHwAubVp77a3BRZSFVao9Tuc38MwM4JpEN7VRGmgHRE88FHCRx6axpQsqdL2xXl', '_blank')}>
+                <div className="p-6 flex items-center gap-4 border-b border-gray-50">
+                   <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-100">
+                      <img src={profileImage} alt="Sabrina Hänggi" className="w-full h-full object-cover" />
+                   </div>
+                   <div>
+                      <h4 className="font-bold text-dark">Sabrina Hänggi</h4>
+                      <p className="text-xs text-gray-400">Auf Facebook gepostet</p>
+                   </div>
+                   <Facebook className="ml-auto text-[#1877F2]" size={20} />
+                </div>
+                <div className="p-6 flex-grow">
+                   <p className="text-gray-600 line-clamp-4 mb-4">
+                      Einblicke in den Alltag auf Lanzarote: Heute beschäftigen wir uns mit der individuellen Betreuung in unserer Pflege-WG...
+                   </p>
+                   <div className="w-full h-48 bg-gray-50 rounded-2xl flex items-center justify-center overflow-hidden">
+                      <img src={heroImage} alt="Post Bild" className="w-full h-full object-cover opacity-80" />
+                   </div>
+                </div>
+                <div className="p-6 pt-0 mt-auto">
+                   <div className="text-primary font-bold text-sm flex items-center">
+                      Beitrag lesen <ArrowRight size={16} className="ml-2" />
+                   </div>
+                </div>
              </div>
-             <div className="bg-background p-2 rounded-3xl shadow-sm border border-gray-100 overflow-hidden flex justify-center h-[500px]">
-                <iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fsabrina.haenggi%2Fposts%2Fpfbid0RAt1soaDo8cq2huuKKhmGpPz3HcTopMhR3zfcG1hEPBUjiTZKpLvK2NBbj81NDrzl&show_text=true&width=500" width="100%" height="100%" style={{border:'none',overflow:'hidden'}} scrolling="no" frameBorder="0" allowFullScreen={true} allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+
+             {/* Facebook Card 2 */}
+             <div className="bg-white rounded-3xl shadow-lg border border-gray-100 overflow-hidden flex flex-col h-full hover:shadow-xl transition-shadow cursor-pointer" onClick={() => window.open('https://www.facebook.com/sabrina.haenggi/posts/pfbid0RAt1soaDo8cq2huuKKhmGpPz3HcTopMhR3zfcG1hEPBUjiTZKpLvK2NBbj81NDrzl', '_blank')}>
+                <div className="p-6 flex items-center gap-4 border-b border-gray-50">
+                   <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-100">
+                      <img src={profileImage} alt="Sabrina Hänggi" className="w-full h-full object-cover" />
+                   </div>
+                   <div>
+                      <h4 className="font-bold text-dark">Sabrina Hänggi</h4>
+                      <p className="text-xs text-gray-400">Auf Facebook gepostet</p>
+                   </div>
+                   <Facebook className="ml-auto text-[#1877F2]" size={20} />
+                </div>
+                <div className="p-6 flex-grow">
+                   <p className="text-gray-600 line-clamp-4 mb-4">
+                      Warum die Entscheidung für eine Begleitung im Ausland oft die richtige ist – Transparenz und Vertrauen sind die Basis...
+                   </p>
+                   <div className="w-full h-48 bg-gray-50 rounded-2xl flex items-center justify-center overflow-hidden">
+                      <img src={angehoerigenImage} alt="Post Bild" className="w-full h-full object-cover opacity-80" />
+                   </div>
+                </div>
+                <div className="p-6 pt-0 mt-auto">
+                   <div className="text-primary font-bold text-sm flex items-center">
+                      Beitrag lesen <ArrowRight size={16} className="ml-2" />
+                   </div>
+                </div>
              </div>
-             <div className="bg-background p-2 rounded-3xl shadow-sm border border-gray-100 overflow-hidden flex justify-center h-[500px]">
-                <iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fsabrina.haenggi%2Fposts%2Fpfbid0aBzmWakggoeAjffhkxgkuQDxBeZQodTafGyUo3jHb23ZSKmGt5An8DsnNBRYEtUTl&show_text=true&width=500" width="100%" height="100%" style={{border:'none',overflow:'hidden'}} scrolling="no" frameBorder="0" allowFullScreen={true} allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+
+             {/* Facebook Card 3 */}
+             <div className="bg-white rounded-3xl shadow-lg border border-gray-100 overflow-hidden flex flex-col h-full hover:shadow-xl transition-shadow cursor-pointer" onClick={() => window.open('https://www.facebook.com/sabrina.haenggi/posts/pfbid0aBzmWakggoeAjffhkxgkuQDxBeZQodTafGyUo3jHb23ZSKmGt5An8DsnNBRYEtUTl', '_blank')}>
+                <div className="p-6 flex items-center gap-4 border-b border-gray-50">
+                   <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-100">
+                      <img src={profileImage} alt="Sabrina Hänggi" className="w-full h-full object-cover" />
+                   </div>
+                   <div>
+                      <h4 className="font-bold text-dark">Sabrina Hänggi</h4>
+                      <p className="text-xs text-gray-400">Auf Facebook gepostet</p>
+                   </div>
+                   <Facebook className="ml-auto text-[#1877F2]" size={20} />
+                </div>
+                <div className="p-6 flex-grow">
+                   <p className="text-gray-600 line-clamp-4 mb-4">
+                      Wussten Sie schon? Wir bieten auch temporäre Entlastung für pflegende Angehörige an. Machen Sie Urlaub, während wir uns kümmern...
+                   </p>
+                   <div className="w-full h-48 bg-gray-100 rounded-2xl flex items-center justify-center flex flex-col gap-2 p-4">
+                      <Facebook size={32} className="text-[#1877F2] opacity-20" />
+                      <span className="text-xs text-gray-400 font-bold uppercase tracking-widest">Aktueller Beitrag</span>
+                   </div>
+                </div>
+                <div className="p-6 pt-0 mt-auto">
+                   <div className="text-primary font-bold text-sm flex items-center">
+                      Beitrag lesen <ArrowRight size={16} className="ml-2" />
+                   </div>
+                </div>
              </div>
           </div>
 
@@ -416,7 +488,7 @@ export const Home: React.FC = () => {
                             </div>
                             <div>
                                 <div className="text-[10px] text-gray-500 uppercase font-bold tracking-widest mb-1">Standort</div>
-                                <div className="text-lg font-bold italic text-gray-300">Costa Teguise, Lanzarote</div>
+                                <div className="text-lg font-bold italic text-gray-300">Lanzarote</div>
                             </div>
                         </div>
                     </div>

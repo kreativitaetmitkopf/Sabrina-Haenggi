@@ -44,7 +44,7 @@ export const Footer: React.FC = () => {
             <ul className="space-y-4">
               <li className="flex items-start text-gray-400">
                 <MapPin className="mr-3 h-6 w-6 shrink-0" />
-                <span>Mobile Pflege auf Lanzarote<br />Costa Teguise & ganze Insel</span>
+                <span>Mobile Pflege auf Lanzarote<br />Ganze Insel Lanzarote</span>
               </li>
               <li className="flex items-center text-gray-400">
                  <span className="font-semibold text-white mr-2">Tel:</span>

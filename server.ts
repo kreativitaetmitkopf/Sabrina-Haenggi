@@ -5,6 +5,7 @@ import path, { dirname } from "path";
 import { fileURLToPath } from "url";
 import { randomUUID } from "crypto";
 import { Resend } from "resend";
+import { createServer as createViteServer } from "vite";
 import { getSupabaseAdmin } from "./lib/supabase.ts";
 import { getMagnetBySlug } from "./lib/magnets.ts";
 import { isRateLimited } from "./lib/rateLimit.ts";
@@ -12,9 +13,10 @@ import { isRateLimited } from "./lib/rateLimit.ts";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const app = express();
-app.use(cors());
-app.use(express.json());
+async function startServer() {
+  const app = express();
+  app.use(cors());
+  app.use(express.json());
 
 // API: Waitlist
 app.post("/api/waitlist", async (req, res) => {
@@ -233,14 +235,25 @@ app.get("/api/dl", async (req, res) => {
   fileStream.pipe(res);
 });
 
-// Serve frontend in production
-app.use(express.static(path.join(process.cwd(), "dist")));
+  // Vite middleware for development
+  if (process.env.NODE_ENV !== "production") {
+    const vite = await createViteServer({
+      server: { middlewareMode: true },
+      appType: "spa",
+    });
+    app.use(vite.middlewares);
+  } else {
+    const distPath = path.join(process.cwd(), 'dist');
+    app.use(express.static(distPath));
+    app.get('*', (req, res) => {
+      res.sendFile(path.join(distPath, 'index.html'));
+    });
+  }
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join(process.cwd(), "dist", "index.html"));
-});
+  const port = 3000;
+  app.listen(port, "0.0.0.0", () => {
+    console.log(`Server is running on http://0.0.0.0:${port}`);
+  });
+}
 
-const port = process.env.NODE_ENV === "production" ? process.env.PORT || 3000 : 3001;
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+startServer();
