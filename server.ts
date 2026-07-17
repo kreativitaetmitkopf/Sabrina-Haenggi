@@ -113,45 +113,67 @@ app.post("/api/lead", async (req, res) => {
       return res.status(404).json({ error: "Download nicht gefunden" });
     }
 
-    const supabaseAdmin = getSupabaseAdmin();
-
     // 2. Lead Speichern
-    const { data: leadData, error: leadError } = await supabaseAdmin
-      .from("leads")
-      .insert({
-        first_name: firstName,
-        last_name: lastName,
-        email,
-        phone,
-        magnet_slug: magnetSlug,
-        consent: true,
-        user_agent: req.headers["user-agent"],
-      })
-      .select("id")
-      .single();
+    let leadId = 'mock-lead-id';
+    
+    // Check if Supabase is configured
+    const hasSupabase = !!(process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.VITE_SUPABASE_URL) && !!process.env.SUPABASE_SERVICE_ROLE_KEY;
+    
+    if (hasSupabase) {
+      const supabaseAdmin = getSupabaseAdmin();
+      const { data: leadData, error: leadError } = await supabaseAdmin
+        .from("leads")
+        .insert({
+          first_name: firstName,
+          last_name: lastName,
+          email,
+          phone,
+          magnet_slug: magnetSlug,
+          consent: true,
+          user_agent: req.headers["user-agent"],
+        })
+        .select("id")
+        .single();
 
-    if (leadError) {
-      console.error("Supabase Error:", leadError);
-      throw new Error("Datenbank Fehler");
+      if (leadError) {
+        console.error("Supabase Error:", leadError);
+        throw new Error("Datenbank Fehler");
+      }
+      leadId = leadData.id;
     }
 
     // 3. Download Token generieren (Gültig für 30 Minuten)
     const token = randomUUID();
     const expiresAt = new Date(Date.now() + 30 * 60 * 1000).toISOString();
 
-    const { error: tokenError } = await supabaseAdmin
-      .from("download_tokens")
-      .insert({
+    if (hasSupabase) {
+      const supabaseAdmin = getSupabaseAdmin();
+      const { error: tokenError } = await supabaseAdmin
+        .from("download_tokens")
+        .insert({
+          token,
+          lead_id: leadId,
+          magnet_slug: magnetSlug,
+          pdf_filename: magnet.fileName,
+          expires_at: expiresAt
+        });
+
+      if (tokenError) {
+        console.error("Token Error:", tokenError);
+        throw new Error("Token Erstellung fehlgeschlagen");
+      }
+    } else {
+      // Speichere Token in Memory für lokale Preview ohne Supabase
+      (global as any).MOCK_TOKENS = (global as any).MOCK_TOKENS || new Map();
+      (global as any).MOCK_TOKENS.set(token, {
+        id: 'mock-token-id',
         token,
-        lead_id: leadData.id,
+        lead_id: leadId,
         magnet_slug: magnetSlug,
         pdf_filename: magnet.fileName,
         expires_at: expiresAt
       });
-
-    if (tokenError) {
-      console.error("Token Error:", tokenError);
-      throw new Error("Token Erstellung fehlgeschlagen");
+      console.warn("Using mock token storage. Supabase is not configured.");
     }
 
     // 4. Download URL konstruieren
@@ -194,29 +216,52 @@ app.get("/api/dl", async (req, res) => {
     return res.status(400).send("Token fehlt");
   }
 
-  const supabaseAdmin = getSupabaseAdmin();
+  // Check if Supabase is configured
+  const hasSupabase = !!(process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.VITE_SUPABASE_URL) && !!process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-  // 1. Token prüfen
-  const { data: tokenRecord, error } = await supabaseAdmin
-    .from("download_tokens")
-    .select("*")
-    .eq("token", token)
-    .single();
+  let tokenRecord;
 
-  if (error || !tokenRecord) {
-    return res.status(403).send("Ungültiger oder abgelaufener Link.");
+  if (hasSupabase) {
+    const supabaseAdmin = getSupabaseAdmin();
+
+    // 1. Token prüfen
+    const { data, error } = await supabaseAdmin
+      .from("download_tokens")
+      .select("*")
+      .eq("token", token)
+      .single();
+
+    if (error || !data) {
+      return res.status(403).send("Ungültiger oder abgelaufener Link.");
+    }
+    tokenRecord = data;
+
+    // 2. Ablauf prüfen
+    if (new Date(tokenRecord.expires_at) < new Date()) {
+      return res.status(410).send("Dieser Link ist abgelaufen.");
+    }
+
+    // 3. Als benutzt markieren
+    await supabaseAdmin
+      .from("download_tokens")
+      .update({ used_at: new Date().toISOString() })
+      .eq("id", tokenRecord.id);
+
+  } else {
+    // Read from Mock memory
+    const mockMap = (global as any).MOCK_TOKENS;
+    if (!mockMap || !mockMap.has(token)) {
+      return res.status(403).send("Ungültiger oder abgelaufener Link. (Mock)");
+    }
+    tokenRecord = mockMap.get(token);
+
+    if (new Date(tokenRecord.expires_at) < new Date()) {
+      return res.status(410).send("Dieser Link ist abgelaufen. (Mock)");
+    }
+    
+    // mark used
+    tokenRecord.used_at = new Date().toISOString();
   }
-
-  // 2. Ablauf prüfen
-  if (new Date(tokenRecord.expires_at) < new Date()) {
-    return res.status(410).send("Dieser Link ist abgelaufen.");
-  }
-
-  // 3. Als benutzt markieren
-  await supabaseAdmin
-    .from("download_tokens")
-    .update({ used_at: new Date().toISOString() })
-    .eq("id", tokenRecord.id);
 
   // 4. Datei lesen
   const filePath = path.join(process.cwd(), "public", "pdfs", tokenRecord.pdf_filename);

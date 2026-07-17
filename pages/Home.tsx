@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Button } from '../components/Button';
 import { CheckCircle2, Heart, Clock, Phone, MapPin, AlertCircle, ChevronDown, Facebook, MessageCircle, ArrowRight } from 'lucide-react';
@@ -8,46 +7,16 @@ import { SEO } from '../components/SEO';
 import profileImage from '../assets/Über Sabrina Website.jpg.jpeg';
 import heroImage from '../assets/HeaderBild Sabrina .png';
 import angehoerigenImage from '../assets/Angehörigen Bild.png';
-
-const FAQ_ITEMS = [
-  {
-    question: "Für wen ist die Pflege geeignet?",
-    answer: "Für Menschen, die auf Lanzarote leben oder hier Urlaub machen und Unterstützung brauchen – sowie für Angehörige aus dem DACH-Raum, die Klarheit und Entlastung möchten."
-  },
-  {
-    question: "Welche Leistungen sind möglich?",
-    answer: "Mobile Pflege im Zuhause (z. B. Körperpflege, Vitalzeichen, Medikamentengabe, Wundversorgung) sowie 24/7 Betreuung in unserer privaten pflege-WG (Warteliste)."
-  },
-  {
-    question: "Wie schnell kann die Betreuung starten?",
-    answer: "Nach dem Erstgespräch klären wir Bedarf und Dringlichkeit. Deswegen bekommst du sehr schnell eine klare Einschätzung, was kurzfristig möglich ist."
-  },
-  {
-    question: "Wie funktioniert die Warteliste für die Pflege-WG?",
-    answer: "Du erhältst Infos zur Verfügbarkeit, zum Ablauf und zu den nächsten Schritten. Deswegen weißt du frühzeitig, was realistisch ist und wie du planen kannst."
-  },
-  {
-    question: "Was kostet Pflege auf Lanzarote?",
-    answer: "Kosten hängen vom Bedarf, Umfang und Zeitfenster ab. Deswegen erstellen wir nach dem Erstgespräch einen transparenten Pflegeplan mit klaren Leistungen und Kosten."
-  },
-  {
-    question: "Wie werde ich als Angehöriger informiert?",
-    answer: "Du bekommst regelmäßige Updates per WhatsApp oder E-Mail – verständlich, strukturiert und zuverlässig. Deswegen fühlst du dich auch aus der Ferne sicher."
-  },
-  {
-    question: "In welchen Sprachen findet die Kommunikation statt?",
-    answer: "Deutsch und Spanisch. Deswegen klappt die Abstimmung mit Ärzten, Apotheken und Stellen vor Ort reibungsloser."
-  },
-  {
-    question: "Was passiert im Notfall?",
-    answer: "Bei medizinischen Notfällen gilt immer: 112. Deswegen sprechen wir im Pflegeplan auch über Notfallwege, Kontaktketten und wichtige Unterlagen."
-  }
-];
+import { Language, TRANSLATIONS } from '../lib/translations';
 
 export const Home: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
+
+  const firstSegment = location.pathname.split('/')[1];
+  const currentLang: Language = (firstSegment === 'de' || firstSegment === 'es' || firstSegment === 'en') ? firstSegment : 'en';
+  const t = TRANSLATIONS[currentLang];
 
   useEffect(() => {
     if (location.hash) {
@@ -64,7 +33,7 @@ export const Home: React.FC = () => {
   const localBusinessSchema = {
     "@context": "https://schema.org",
     "@type": "MedicalBusiness",
-    "name": "Sabrina Hänggi - Pflege auf Lanzarote",
+    "name": `Sabrina Hänggi - ${t.nav.brandSub}`,
     "image": "https://sabrinahaenggi.com/og-image.jpg",
     "telephone": SITE_CONFIG.phone,
     "email": SITE_CONFIG.email,
@@ -82,7 +51,7 @@ export const Home: React.FC = () => {
       "longitude": -13.59
     },
     "priceRange": "$$",
-    "description": "Deutschsprachige mobile Pflege und 24/7 Betreuung auf Lanzarote. Professionell, herzlich und zuverlässig.",
+    "description": t.meta.home.description,
     "openingHoursSpecification": {
       "@type": "OpeningHoursSpecification",
       "dayOfWeek": [
@@ -93,12 +62,36 @@ export const Home: React.FC = () => {
     }
   };
 
+  const formatHeroTitle = (text: string) => {
+    return { 
+      __html: text
+        .replace('{br}', '<br/>')
+        .replace('{spanStart}', '<span class="text-primary">')
+        .replace('{spanEnd}', '</span>') 
+    };
+  };
+
+  const formatFamiliesTitle = (text: string) => {
+    return { 
+      __html: text
+        .replace('{spanStart}', '<span class="text-primary underline decoration-accent decoration-4 underline-offset-8">')
+        .replace('{spanEnd}', '</span>') 
+    };
+  };
+
+  const formatP2Desc = (text: string) => {
+    return { __html: text.replace('{email}', SITE_CONFIG.email) };
+  };
+
+  const formatImpDesc1 = (text: string) => {
+    return { __html: text };
+  };
+
   return (
     <div className="flex flex-col min-h-screen relative">
       <SEO 
-        title="Mobile Pflege & 24/7 Betreuung Lanzarote"
-        description="Ihr deutscher Pflegedienst auf Lanzarote. Mobile Pflege, medizinische Versorgung und 24h Pflege-WG. Jetzt beraten lassen."
-        path="/"
+        title={t.meta.home.title}
+        description={t.meta.home.description}
         schema={localBusinessSchema}
       />
 
@@ -113,29 +106,28 @@ export const Home: React.FC = () => {
         <MessageCircle size={32} />
       </a>
       
-      {/* Hero Section - New Light Design */}
-      <section className="relative bg-white pt-12 pb-20 lg:pt-20 lg:pb-32 overflow-hidden border-b border-gray-100">
+      {/* Hero Section */}
+      <section className="relative bg-white pt-12 pb-20 lg:pt-20 lg:pb-32 overflow-hidden border-b border-gray-100" id="hero">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             {/* Text Side */}
             <div className="relative z-10 order-2 lg:order-1">
               <div className="inline-block px-4 py-2 bg-primary/10 text-primary border border-primary/20 rounded-full text-sm font-bold mb-6">
-                Ihr Pflegedienst auf Lanzarote
+                {t.home.badge}
               </div>
-              <h1 className="text-4xl lg:text-6xl xl:text-7xl font-black text-dark tracking-tight leading-[1.1] mb-6">
-                Pflege unter Palmen. <br/>
-                <span className="text-primary">Sicherheit</span> für Ihre Liebsten.
-              </h1>
+              <h1 
+                className="text-4xl lg:text-6xl xl:text-7xl font-black text-dark tracking-tight leading-[1.1] mb-6"
+                dangerouslySetInnerHTML={formatHeroTitle(t.home.heroTitle)}
+              />
               <p className="text-xl text-gray-600 mb-10 leading-relaxed max-w-lg font-medium">
-                Ob mobile Pflege vor Ort oder 24/7 Betreuung in unserer Pflege-WG: 
-                Wir schaffen Lebensqualität. Deutschsprachig, professionell und herzlich.
+                {t.home.heroDesc}
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button size="lg" onClick={() => navigate('/downloads')} className="shadow-xl shadow-primary/20 bg-primary hover:bg-blue-600">
-                  Kostenlose Checkliste
+                <Button size="lg" onClick={() => navigate(`/${currentLang}/downloads`)} className="shadow-xl shadow-primary/20 bg-primary hover:bg-blue-600">
+                  {t.home.ctaChecklist}
                 </Button>
                 <Button size="lg" variant="outline" className="border-gray-200 text-dark hover:bg-gray-50" onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth'})}>
-                  Erstgespräch vereinbaren
+                  {t.home.ctaConsultation}
                 </Button>
               </div>
               
@@ -148,7 +140,7 @@ export const Home: React.FC = () => {
                   ))}
                 </div>
                 <div className="text-sm font-bold text-gray-500">
-                  Über 20 Jahre Erfahrung in der Pflege
+                  {t.home.experienceBadge}
                 </div>
               </div>
             </div>
@@ -160,7 +152,7 @@ export const Home: React.FC = () => {
                 <div className="relative bg-white p-3 rounded-[3rem] shadow-2xl border border-gray-100">
                   <img 
                     src={heroImage} 
-                    alt="Sabrina Hänggi bei der Pflege auf Lanzarote" 
+                    alt="Sabrina Hänggi" 
                     className="rounded-[2.5rem] w-full h-[400px] lg:h-[600px] object-cover shadow-inner" 
                     loading="eager"
                   />
@@ -170,9 +162,9 @@ export const Home: React.FC = () => {
                       <div className="w-10 h-10 rounded-2xl bg-accent/20 flex items-center justify-center">
                         <Heart className="text-accent fill-accent" size={20} />
                       </div>
-                      <span className="font-black text-dark text-lg italic">Herzlich</span>
+                      <span className="font-black text-dark text-lg italic">{t.home.floatingBadgeText}</span>
                     </div>
-                    <p className="text-xs text-gray-500 font-bold leading-tight uppercase">Individuelle Betreuung nach Maß</p>
+                    <p className="text-xs text-gray-500 font-bold leading-tight uppercase">{t.home.floatingBadgeDesc}</p>
                   </div>
                 </div>
               </div>
@@ -188,28 +180,27 @@ export const Home: React.FC = () => {
       <section id="services" className="py-20 bg-background scroll-mt-28">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-3xl font-bold text-dark mb-2">Unser Angebot für Sie</h2>
-            <h3 className="text-xl font-semibold text-primary mb-4">Pflege, die sich Ihrer Situation anpasst</h3>
+            <h2 className="text-3xl font-bold text-dark mb-2">{t.home.servicesTitle}</h2>
+            <h3 className="text-xl font-semibold text-primary mb-4">{t.home.servicesSubtitle}</h3>
             <p className="text-gray-600 text-lg">
-              Jeder Mensch hat eigene Bedürfnisse. Deswegen bieten wir flexible Modelle, 
-              die zu Ihrem Alltag, Ihrer Familie und Ihrer aktuellen Lage passen.
+              {t.home.servicesDesc}
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-            <div className="bg-white rounded-3xl p-8 lg:p-10 border border-gray-100 hover:shadow-xl transition-all duration-300 flex flex-col h-full group">
+            <div className="bg-white rounded-3xl p-8 lg:p-10 border border-gray-100 hover:shadow-xl transition-all duration-300 flex flex-col h-full group" id="service-mobile">
               <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
                 <Heart className="text-primary w-9 h-9" />
               </div>
-              <h3 className="text-2xl font-bold text-dark mb-4">Mobile Pflege in Ihrem Zuhause</h3>
+              <h3 className="text-2xl font-bold text-dark mb-4">{t.home.mobileTitle}</h3>
               <p className="text-gray-600 mb-8 leading-relaxed">
-                Wir kommen direkt zu Ihnen ins Feriendomizil oder in Ihre Wohnung auf Lanzarote. Sie erhalten professionelle Pflege in vertrauter Umgebung – ruhig, respektvoll, zuverlässig.
+                {t.home.mobileDesc}
               </p>
               <div className="mb-4">
-                <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Typische Leistungen:</span>
+                <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">{t.home.typicalServices}</span>
               </div>
               <ul className="space-y-4 mb-10 flex-grow">
-                {['Medikamentengabe & Wundversorgung', 'Unterstützung bei Körperpflege & Alltag', 'Vitalzeichenkontrolle', 'Pflegebescheinigung für Kostenträger'].map(item => (
+                {t.home.mobileServices.map(item => (
                   <li key={item} className="flex items-start text-gray-700">
                     <CheckCircle2 className="w-5 h-5 text-accent mr-3 mt-1 flex-shrink-0" />
                     <span className="font-medium">{item}</span>
@@ -217,32 +208,32 @@ export const Home: React.FC = () => {
                 ))}
               </ul>
               <Button variant="primary" size="lg" className="w-full" onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth'})}>
-                Unverbindlich anfragen
+                {t.home.ctaInquire}
               </Button>
             </div>
 
-            <div className="bg-white rounded-3xl p-8 lg:p-10 border-2 border-primary/10 shadow-sm hover:shadow-xl transition-all duration-300 relative overflow-hidden flex flex-col group">
+            <div className="bg-white rounded-3xl p-8 lg:p-10 border-2 border-primary/10 shadow-sm hover:shadow-xl transition-all duration-300 relative overflow-hidden flex flex-col group" id="service-wg">
                <div className="absolute top-0 right-0 bg-yellow-400 text-dark text-[10px] font-black px-4 py-2 rounded-bl-2xl uppercase tracking-widest flex items-center">
                   <AlertCircle size={12} className="mr-1" />
-                  Warteliste offen
+                  {t.home.wgStatus}
                </div>
               <div className="w-16 h-16 bg-yellow-50 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
                 <Clock className="text-yellow-600 w-9 h-9" />
               </div>
-              <h3 className="text-2xl font-bold text-dark mb-2">24/7 Private Pflege-WG</h3>
+              <h3 className="text-2xl font-bold text-dark mb-2">{t.home.wgTitle}</h3>
                <p className="text-gray-600 mb-8 leading-relaxed flex-grow">
-                Rund um die Uhr Betreuung in familiärer Atmosphäre in Tahíche. Ideal als dauerhafte Lösung oder als temporäre Entlastung für Angehörige.
+                {t.home.wgDesc}
               </p>
               <ul className="space-y-4 mb-10">
-                {['24 Stunden Anwesenheit', 'Urlaubs- & Verhinderungspflege', 'Gemeinsame Mahlzeiten & Aktivitäten', 'Barrierefreies Wohnen nach CH-Standard'].map(item => (
+                {t.home.wgServices.map(item => (
                   <li key={item} className="flex items-start text-gray-700">
                     <CheckCircle2 className="w-5 h-5 text-primary mr-3 mt-1 flex-shrink-0" />
                     <span className="font-medium">{item}</span>
                   </li>
                 ))}
               </ul>
-              <Button variant="outline" size="lg" className="w-full border-primary text-primary hover:bg-primary hover:text-white" onClick={() => navigate('/warteliste')}>
-                Zur Warteliste & Broschüre
+              <Button variant="outline" size="lg" className="w-full border-primary text-primary hover:bg-primary hover:text-white" onClick={() => navigate(`/${currentLang}/warteliste`)}>
+                {t.home.ctaWg}
               </Button>
             </div>
           </div>
@@ -259,7 +250,7 @@ export const Home: React.FC = () => {
                   <div className="relative bg-white p-3 rounded-[2.5rem] shadow-2xl">
                     <img 
                       src={angehoerigenImage} 
-                      alt="Älteres Paar genießt die Zeit am Meer" 
+                      alt="Pair by the sea" 
                       className="rounded-[2rem] h-96 w-full object-cover" 
                       loading="lazy" 
                     />
@@ -267,13 +258,14 @@ export const Home: React.FC = () => {
                </div>
             </div>
             <div className="lg:w-1/2">
-              <h2 className="text-3xl font-bold text-dark mb-2">Für Angehörige aus D A CH:</h2>
-              <p className="text-sm text-gray-500 mb-6 font-medium">(D A CH = Deutschland (D), Österreich (A) & Schweiz (CH))</p>
-              <h3 className="text-4xl font-extrabold text-dark mb-8 leading-tight">
-                Sorgenfrei aus der <span className="text-primary underline decoration-accent decoration-4 underline-offset-8">Ferne.</span>
-              </h3>
+              <h2 className="text-3xl font-bold text-dark mb-2">{t.home.familiesHeading}</h2>
+              <p className="text-sm text-gray-500 mb-6 font-medium">{t.home.familiesSubheading}</p>
+              <h3 
+                className="text-4xl font-extrabold text-dark mb-8 leading-tight"
+                dangerouslySetInnerHTML={formatFamiliesTitle(t.home.familiesTitle)}
+              />
               <p className="text-gray-600 text-lg mb-8 leading-relaxed">
-                Es ist belastend, wenn Eltern oder Partner weit weg leben. Deswegen sind wir Ihr verlängerter Arm vor Ort: transparent, erreichbar, strukturiert. Sie wissen jederzeit, wie es Ihrem Herzensmenschen geht – ohne Druck, ohne Rätselraten.
+                {t.home.familiesDesc}
               </p>
               
               <div className="mb-10">
@@ -282,22 +274,18 @@ export const Home: React.FC = () => {
                   onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth'})}
                   className="shadow-lg group"
                 >
-                  Jetzt Rückruf anfordern
+                  {t.home.ctaCallback}
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </div>
 
               <div className="space-y-10">
-                {[
-                  { n: 1, t: "Kostenloses Erstgespräch", d: "Wir klären den Bedarf per Video-Call oder Telefon." },
-                  { n: 2, t: "Individueller Pflegeplan", d: "Sie erhalten klare Leistungen und transparente Kosten passend zur Situation." },
-                  { n: 3, t: "Start der Betreuung", d: "Sie bekommen regelmäßige Updates per WhatsApp oder E-Mail." }
-                ].map(step => (
-                  <div key={step.n} className="flex gap-6 group">
-                    <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center shadow-md shrink-0 border border-gray-100 font-bold text-primary group-hover:bg-primary group-hover:text-white transition-colors">{step.n}</div>
+                {t.home.steps.map((step, idx) => (
+                  <div key={idx} className="flex gap-6 group">
+                    <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center shadow-md shrink-0 border border-gray-100 font-bold text-primary group-hover:bg-primary group-hover:text-white transition-colors">{idx + 1}</div>
                     <div>
-                      <h5 className="font-bold text-xl text-dark mb-1">{step.t}</h5>
-                      <p className="text-gray-600">{step.d}</p>
+                      <h5 className="font-bold text-xl text-dark mb-1">{step.title}</h5>
+                      <p className="text-gray-600">{step.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -313,45 +301,38 @@ export const Home: React.FC = () => {
             <div className="w-48 h-48 mx-auto rounded-full overflow-hidden mb-10 border-8 border-white shadow-2xl ring-1 ring-gray-100">
                  <img 
                   src={profileImage} 
-                  alt="Sabrina Hänggi - Dipl. Pflegefachfrau HF" 
+                  alt="Sabrina Hänggi" 
                   className="w-full h-full object-cover" 
                   loading="lazy"
                  />
             </div>
-            <h2 className="text-4xl font-bold text-dark mb-4">Über Sabrina Hänggi</h2>
-            <p className="text-2xl text-primary font-semibold mb-8 italic">"Schweizer Qualität mit kanarischer Herzlichkeit."</p>
+            <h2 className="text-4xl font-bold text-dark mb-4">{t.home.aboutTitle}</h2>
+            <p className="text-2xl text-primary font-semibold mb-8 italic">{t.home.aboutMotto}</p>
             <p className="text-gray-600 text-lg leading-relaxed mb-12 max-w-3xl mx-auto">
-                Nach über 20 Jahren Erfahrung in der Notfallmedizin in der Schweiz habe ich meinen Lebensmittelpunkt nach Lanzarote verlegt. 
-                Hier verbinde ich höchste medizinische Standards mit der Ruhe und Lebensfreude der Insel. 
-                Mein Ziel ist es, Menschen ein würdevolles und sicheres Leben in ihrer Wahlheimat zu ermöglichen.
+                {t.home.aboutDesc}
             </p>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-                {[
-                  { v: "20+", l: "Jahre Erfahrung" },
-                  { v: "CH/DE/ES", l: "Sprachen" },
-                  { v: "24/7", l: "Erreichbar" },
-                  { v: "100%", l: "Zuverlässigkeit" }
-                ].map(stat => (
-                  <div key={stat.l} className="p-6 bg-white rounded-2xl border border-gray-100 shadow-sm">
-                    <div className="font-black text-3xl text-dark mb-1">{stat.v}</div>
-                    <div className="text-[10px] text-gray-500 uppercase font-bold tracking-widest">{stat.l}</div>
+                {t.home.stats.map(stat => (
+                  <div key={stat.label} className="p-6 bg-white rounded-2xl border border-gray-100 shadow-sm">
+                    <div className="font-black text-3xl text-dark mb-1">{stat.value}</div>
+                    <div className="text-[10px] text-gray-500 uppercase font-bold tracking-widest">{stat.label}</div>
                   </div>
                 ))}
             </div>
         </div>
       </section>
 
-      {/* News/Facebook Preview */}
+      {/* News Section */}
       <section id="news" className="py-24 bg-white scroll-mt-20 border-t border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-3xl font-bold text-dark mb-4 uppercase tracking-widest">Aktuelles</h2>
-            <h3 className="text-xl font-semibold text-primary mb-6">Einblicke in unsere tägliche Arbeit direkt aus Lanzarote.</h3>
+            <h2 className="text-3xl font-bold text-dark mb-4 uppercase tracking-widest">{t.home.newsTitle}</h2>
+            <h3 className="text-xl font-semibold text-primary mb-6">{t.home.newsSubtitle}</h3>
             <p className="text-gray-600 text-lg leading-relaxed mb-4">
-              Folgen Sie mir auf Social Media für praktische Pflege-Tipps auf den Kanaren, Updates aus dem Alltag und echte Einblicke hinter die Kulissen.
+              {t.home.newsDesc1}
             </p>
             <p className="text-gray-600 text-lg leading-relaxed">
-              Hier teilen wir auch Kundenfeedback und Erfahrungsberichte, damit Sie ein Gefühl bekommen, wie sich die Zusammenarbeit wirklich anfühlt.
+              {t.home.newsDesc2}
             </p>
           </div>
 
@@ -364,21 +345,21 @@ export const Home: React.FC = () => {
                    </div>
                    <div>
                       <h4 className="font-bold text-dark">Sabrina Hänggi</h4>
-                      <p className="text-xs text-gray-400">Auf Facebook gepostet</p>
+                      <p className="text-xs text-gray-400">{t.home.fbCardPostText}</p>
                    </div>
                    <Facebook className="ml-auto text-[#1877F2]" size={20} />
                 </div>
                 <div className="p-6 flex-grow">
                    <p className="text-gray-600 line-clamp-4 mb-4">
-                      Einblicke in den Alltag auf Lanzarote: Heute beschäftigen wir uns mit der individuellen Betreuung in unserer Pflege-WG...
+                      {t.home.fbPosts[0]}
                    </p>
                    <div className="w-full h-48 bg-gray-50 rounded-2xl flex items-center justify-center overflow-hidden">
-                      <img src={heroImage} alt="Post Bild" className="w-full h-full object-cover opacity-80" />
+                      <img src={heroImage} alt="Post" className="w-full h-full object-cover opacity-80" />
                    </div>
                 </div>
                 <div className="p-6 pt-0 mt-auto">
                    <div className="text-primary font-bold text-sm flex items-center">
-                      Beitrag lesen <ArrowRight size={16} className="ml-2" />
+                      {t.home.fbCardReadText} <ArrowRight size={16} className="ml-2" />
                    </div>
                 </div>
              </div>
@@ -391,21 +372,21 @@ export const Home: React.FC = () => {
                    </div>
                    <div>
                       <h4 className="font-bold text-dark">Sabrina Hänggi</h4>
-                      <p className="text-xs text-gray-400">Auf Facebook gepostet</p>
+                      <p className="text-xs text-gray-400">{t.home.fbCardPostText}</p>
                    </div>
                    <Facebook className="ml-auto text-[#1877F2]" size={20} />
                 </div>
                 <div className="p-6 flex-grow">
                    <p className="text-gray-600 line-clamp-4 mb-4">
-                      Warum die Entscheidung für eine Begleitung im Ausland oft die richtige ist – Transparenz und Vertrauen sind die Basis...
+                      {t.home.fbPosts[1]}
                    </p>
                    <div className="w-full h-48 bg-gray-50 rounded-2xl flex items-center justify-center overflow-hidden">
-                      <img src={angehoerigenImage} alt="Post Bild" className="w-full h-full object-cover opacity-80" />
+                      <img src={angehoerigenImage} alt="Post" className="w-full h-full object-cover opacity-80" />
                    </div>
                 </div>
                 <div className="p-6 pt-0 mt-auto">
                    <div className="text-primary font-bold text-sm flex items-center">
-                      Beitrag lesen <ArrowRight size={16} className="ml-2" />
+                      {t.home.fbCardReadText} <ArrowRight size={16} className="ml-2" />
                    </div>
                 </div>
              </div>
@@ -418,22 +399,22 @@ export const Home: React.FC = () => {
                    </div>
                    <div>
                       <h4 className="font-bold text-dark">Sabrina Hänggi</h4>
-                      <p className="text-xs text-gray-400">Auf Facebook gepostet</p>
+                      <p className="text-xs text-gray-400">{t.home.fbCardPostText}</p>
                    </div>
                    <Facebook className="ml-auto text-[#1877F2]" size={20} />
                 </div>
                 <div className="p-6 flex-grow">
                    <p className="text-gray-600 line-clamp-4 mb-4">
-                      Wussten Sie schon? Wir bieten auch temporäre Entlastung für pflegende Angehörige an. Machen Sie Urlaub, während wir uns kümmern...
+                      {t.home.fbPosts[2]}
                    </p>
-                   <div className="w-full h-48 bg-gray-100 rounded-2xl flex items-center justify-center flex flex-col gap-2 p-4">
+                   <div className="w-full h-101 bg-gray-50 rounded-2xl flex items-center justify-center flex-col gap-2 p-4 min-h-[192px]">
                       <Facebook size={32} className="text-[#1877F2] opacity-20" />
-                      <span className="text-xs text-gray-400 font-bold uppercase tracking-widest">Aktueller Beitrag</span>
+                      <span className="text-xs text-gray-400 font-bold uppercase tracking-widest">{t.home.fbCardCurrentText}</span>
                    </div>
                 </div>
                 <div className="p-6 pt-0 mt-auto">
                    <div className="text-primary font-bold text-sm flex items-center">
-                      Beitrag lesen <ArrowRight size={16} className="ml-2" />
+                      {t.home.fbCardReadText} <ArrowRight size={16} className="ml-2" />
                    </div>
                 </div>
              </div>
@@ -442,11 +423,11 @@ export const Home: React.FC = () => {
           <div className="flex flex-col sm:flex-row justify-center items-center gap-6">
             <Button size="lg" className="bg-[#1877F2] hover:bg-[#166fe5] px-10 border-none" onClick={() => window.open(SITE_CONFIG.facebookUrl, '_blank')}>
               <Facebook className="mr-2 h-5 w-5" />
-              Auf Facebook folgen
+              {t.home.fbFollow}
             </Button>
             <Button size="lg" className="bg-[#25D366] text-white hover:bg-green-600 px-10 border-none" onClick={() => window.open(SITE_CONFIG.whatsappUrl, '_blank')}>
               <MessageCircle className="mr-2 h-5 w-5" />
-              Nachricht via WhatsApp
+              {t.home.whatsappMessage}
             </Button>
           </div>
         </div>
@@ -458,8 +439,8 @@ export const Home: React.FC = () => {
             <div className="bg-dark rounded-[3rem] shadow-2xl overflow-hidden border border-white/5">
                 <div className="grid grid-cols-1 lg:grid-cols-2">
                     <div className="p-10 lg:p-16 text-white bg-gradient-to-br from-dark to-blue-900/50">
-                        <h2 className="text-4xl font-bold mb-8">Wir sind für Sie da.</h2>
-                        <p className="text-gray-400 text-lg mb-12 leading-relaxed">Haben Sie Fragen zur Pflegefinanzierung auf Lanzarote oder zur Warteliste der Pflege-WG? Melden Sie sich einfach direkt per WhatsApp oder Telefon.</p>
+                        <h2 className="text-4xl font-bold mb-8">{t.home.contactTitle}</h2>
+                        <p className="text-gray-400 text-lg mb-12 leading-relaxed">{t.home.contactDesc}</p>
                         
                         <div className="space-y-6 mb-12">
                             <a href={`tel:${SITE_CONFIG.phone.replace(/\s/g, '')}`} className="flex items-center group">
@@ -467,17 +448,17 @@ export const Home: React.FC = () => {
                                     <Phone className="w-7 h-7 text-white" />
                                 </div>
                                 <div>
-                                    <div className="text-xs text-gray-500 uppercase font-bold tracking-widest mb-1">Telefon</div>
+                                    <div className="text-xs text-gray-500 uppercase font-bold tracking-widest mb-1">{t.home.contactTelLabel}</div>
                                     <div className="text-2xl font-black">{SITE_CONFIG.phone}</div>
                                 </div>
                             </a>
                             <a href={SITE_CONFIG.whatsappUrl} target="_blank" rel="noopener noreferrer" className="flex items-center group">
-                                <div className="w-14 h-14 rounded-2xl bg-[#25D366]/20 flex items-center justify-center mr-6 group-hover:bg-[#25D366] transition-all duration-300">
-                                    <MessageCircle className="w-7 h-7 text-[#25D366] group-hover:text-white" />
+                                <div className="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center mr-6 group-hover:bg-[#25D366] transition-all duration-300">
+                                    <MessageCircle className="w-7 h-7 text-white" />
                                 </div>
                                 <div>
-                                    <div className="text-xs text-gray-500 uppercase font-bold tracking-widest mb-1">WhatsApp Kontakt</div>
-                                    <div className="text-2xl font-black text-[#25D366]">Anruf oder Nachricht</div>
+                                    <div className="text-xs text-gray-500 uppercase font-bold tracking-widest mb-1">{t.home.contactWaLabel}</div>
+                                    <div className="text-2xl font-black text-[#25D366]">{t.home.contactWaStatus}</div>
                                 </div>
                             </a>
                         </div>
@@ -487,26 +468,26 @@ export const Home: React.FC = () => {
                                 <MapPin className="w-6 h-6 text-gray-400" />
                             </div>
                             <div>
-                                <div className="text-[10px] text-gray-500 uppercase font-bold tracking-widest mb-1">Standort</div>
+                                <div className="text-[10px] text-gray-500 uppercase font-bold tracking-widest mb-1">{t.home.contactLocationLabel}</div>
                                 <div className="text-lg font-bold italic text-gray-300">Lanzarote</div>
                             </div>
                         </div>
                     </div>
                     <div className="p-10 lg:p-16 bg-white">
                         <div className="text-center mb-10">
-                            <h3 className="text-3xl font-bold text-dark mb-2">Rückruf anfordern</h3>
-                            <p className="text-gray-500">Kostenlos und absolut unverbindlich.</p>
+                            <h3 className="text-3xl font-bold text-dark mb-2">{t.home.contactFormTitle}</h3>
+                            <p className="text-gray-500">{t.home.contactFormSubtitle}</p>
                         </div>
-                        <form className="space-y-6" onSubmit={(e) => { e.preventDefault(); alert('Vielen Dank! Wir melden uns innerhalb von 24 Stunden.'); }}>
+                        <form className="space-y-6" onSubmit={(e) => { e.preventDefault(); alert(t.home.contactSuccessMsg); }}>
                             <div className="space-y-4">
-                                <input type="text" placeholder="Ihr Name" className="w-full p-4 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white transition-colors" required />
-                                <input type="tel" placeholder="Ihre Telefonnummer" className="w-full p-4 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white transition-colors" required />
-                                <textarea placeholder="Wie können wir Ihnen helfen?" rows={4} className="w-full p-4 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white transition-colors"></textarea>
+                                <input type="text" placeholder={t.home.contactFormName} className="w-full p-4 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white transition-colors" required />
+                                <input type="tel" placeholder={t.home.contactFormPhone} className="w-full p-4 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white transition-colors" required />
+                                <textarea placeholder={t.home.contactFormMsg} rows={4} className="w-full p-4 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white transition-colors"></textarea>
                             </div>
-                            <Button fullWidth size="lg" type="submit" className="h-16 text-lg font-bold">Anfrage absenden</Button>
+                            <Button fullWidth size="lg" type="submit" className="h-16 text-lg font-bold">{t.home.contactFormSubmit}</Button>
                             
                             <div className="text-center mt-6">
-                                <p className="text-sm text-gray-400 mb-4">— oder —</p>
+                                <p className="text-sm text-gray-400 mb-4">{t.home.contactFormOr}</p>
                                 <Button 
                                   variant="outline" 
                                   fullWidth 
@@ -514,7 +495,7 @@ export const Home: React.FC = () => {
                                   onClick={() => window.open(SITE_CONFIG.whatsappUrl, '_blank')}
                                 >
                                   <Phone className="mr-2 w-5 h-5" />
-                                  Über WhatsApp anrufen
+                                  {t.home.contactFormWaCall}
                                 </Button>
                             </div>
                         </form>
@@ -525,14 +506,14 @@ export const Home: React.FC = () => {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-white" id="faq">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-black text-dark mb-4">FAQ</h2>
-            <p className="text-gray-500 font-medium">Ihre häufigsten Fragen zur Pflege auf Lanzarote beantwortet.</p>
+            <h2 className="text-3xl md:text-5xl font-black text-dark mb-4">{t.faq.title}</h2>
+            <p className="text-gray-500 font-medium">{t.faq.subtitle}</p>
           </div>
           <div className="space-y-4">
-            {FAQ_ITEMS.map((faq, index) => {
+            {t.faq.items.map((faq, index) => {
               const isOpen = openFaqIndex === index;
               return (
                 <div key={index} className={`bg-background rounded-3xl border transition-all duration-300 ${isOpen ? 'border-primary/20 shadow-xl' : 'border-gray-50 hover:border-gray-100 shadow-sm'}`}>

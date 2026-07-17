@@ -1,11 +1,17 @@
-
 import React, { useState } from 'react';
 import { ArrowLeft, Clock, Shield, CheckCircle2, Loader2, Send } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { SEO } from '../components/SEO';
+import { Language, TRANSLATIONS } from '../lib/translations';
 
 export const Waitlist: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const firstSegment = location.pathname.split('/')[1];
+  const currentLang: Language = (firstSegment === 'de' || firstSegment === 'es' || firstSegment === 'en') ? firstSegment : 'en';
+  const t = TRANSLATIONS[currentLang];
+
   const [formData, setFormData] = useState({
     first_name: '',
     last_name: '',
@@ -36,42 +42,63 @@ export const Waitlist: React.FC = () => {
         },
         body: JSON.stringify({
           ...formData,
-          source: 'website_waitlist_page'
+          source: `website_waitlist_page_${currentLang}`
         }),
       });
 
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.error || 'Etwas ist schiefgelaufen.');
+        throw new Error(result.error || t.waitlist.errorConnection);
       }
 
       setSuccess(true);
       setTimeout(() => {
-        navigate('/warteliste-danke');
+        navigate(`/${currentLang}/warteliste-danke`);
       }, 1500);
     } catch (err: any) {
-      setError(err.message || 'Verbindung fehlgeschlagen.');
+      setError(err.message || t.waitlist.errorConnection);
     } finally {
       setIsLoading(false);
     }
   };
 
+  const consentText = t.waitlist.consent;
+  const linkIndexStart = consentText.indexOf('{linkStart}');
+  const linkIndexEnd = consentText.indexOf('{linkEnd}');
+  
+  const renderConsentLabel = () => {
+    if (linkIndexStart !== -1 && linkIndexEnd !== -1) {
+      const before = consentText.substring(0, linkIndexStart);
+      const linkText = consentText.substring(linkIndexStart + 11, linkIndexEnd);
+      const after = consentText.substring(linkIndexEnd + 9);
+      return (
+        <span className="text-xs text-gray-500 leading-relaxed group-hover:text-gray-700 transition-colors">
+          {before}
+          <a href={`/${currentLang}/datenschutz`} target="_blank" rel="noopener noreferrer" className="text-primary underline">
+            {linkText}
+          </a>
+          {after}
+        </span>
+      );
+    }
+    return <span className="text-xs text-gray-500 leading-relaxed group-hover:text-gray-700 transition-colors">{consentText}</span>;
+  };
+
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background" id="waitlist-page">
       <SEO 
-        title="Warteliste & Broschüre Pflege-WG" 
-        description="Melden Sie sich für die Warteliste unserer exklusiven Pflege-WG auf Lanzarote an und erhalten Sie sofort unser Whitepaper."
-        path="/warteliste"
+        title={t.meta.waitlist.title} 
+        description={t.meta.waitlist.description}
       />
 
       <div className="max-w-7xl mx-auto px-4 pt-12">
         <button 
-          onClick={() => navigate('/')}
+          onClick={() => navigate(`/${currentLang}`)}
           className="flex items-center text-gray-500 hover:text-dark mb-8 transition-colors text-sm font-medium"
         >
           <ArrowLeft size={16} className="mr-2" />
-          Zurück zur Startseite
+          {t.waitlist.backButton}
         </button>
       </div>
 
@@ -80,33 +107,29 @@ export const Waitlist: React.FC = () => {
           <div className="bg-white rounded-[3rem] shadow-2xl overflow-hidden border border-gray-100">
             <div className="grid grid-cols-1 lg:grid-cols-5">
               {/* Sidebar Info */}
-              <div className="lg:col-span-2 bg-dark p-8 md:p-12 text-white">
-                <div className="inline-flex items-center justify-center p-3 bg-primary/20 rounded-2xl mb-8">
-                  <Clock className="text-primary w-8 h-8" />
-                </div>
-                <h1 className="text-3xl font-bold mb-6">Warteliste & Broschüre</h1>
-                <p className="text-gray-400 mb-10 leading-relaxed">
-                  Tragen Sie sich unverbindlich ein. Sie erhalten unsere Informations-Broschüre sofort per E-Mail und wir melden uns persönlich bei Ihnen.
-                </p>
-                
-                <div className="space-y-6">
-                  <div className="flex items-start gap-4">
-                    <CheckCircle2 className="text-accent shrink-0 mt-1" size={20} />
-                    <span className="text-sm">Exklusive Einblicke in die Pflege-WG</span>
+              <div className="lg:col-span-2 bg-dark p-8 md:p-12 text-white flex flex-col justify-between">
+                <div>
+                  <div className="inline-flex items-center justify-center p-3 bg-primary/20 rounded-2xl mb-8">
+                    <Clock className="text-primary w-8 h-8" />
                   </div>
-                  <div className="flex items-start gap-4">
-                    <CheckCircle2 className="text-accent shrink-0 mt-1" size={20} />
-                    <span className="text-sm">Bevorzugte Benachrichtigung bei freien Plätzen</span>
-                  </div>
-                  <div className="flex items-start gap-4">
-                    <CheckCircle2 className="text-accent shrink-0 mt-1" size={20} />
-                    <span className="text-sm">Detaillierte Kostenübersicht</span>
+                  <h1 className="text-3xl font-bold mb-6">{t.waitlist.title}</h1>
+                  <p className="text-gray-400 mb-10 leading-relaxed">
+                    {t.waitlist.desc}
+                  </p>
+                  
+                  <div className="space-y-6">
+                    {t.waitlist.features.map((feature, idx) => (
+                      <div key={idx} className="flex items-start gap-4">
+                        <CheckCircle2 className="text-accent shrink-0 mt-1" size={20} />
+                        <span className="text-sm">{feature}</span>
+                      </div>
+                    ))}
                   </div>
                 </div>
 
                 <div className="mt-12 pt-12 border-t border-white/10 flex items-center gap-3">
                   <Shield className="text-gray-500" size={16} />
-                  <span className="text-[10px] uppercase font-bold tracking-widest text-gray-500">Ihre Daten sind sicher (SSL)</span>
+                  <span className="text-[10px] uppercase font-bold tracking-widest text-gray-500">{t.waitlist.sslBadge}</span>
                 </div>
               </div>
 
@@ -117,8 +140,8 @@ export const Waitlist: React.FC = () => {
                     <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-6">
                       <CheckCircle2 className="text-green-600 w-10 h-10" />
                     </div>
-                    <h2 className="text-2xl font-bold text-dark mb-2">Fast geschafft!</h2>
-                    <p className="text-gray-600">Wir leiten Sie zur Bestätigung weiter...</p>
+                    <h2 className="text-2xl font-bold text-dark mb-2">{t.waitlist.successTitle}</h2>
+                    <p className="text-gray-600">{t.waitlist.successDesc}</p>
                   </div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-6">
@@ -132,7 +155,7 @@ export const Waitlist: React.FC = () => {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Vorname</label>
+                        <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">{t.waitlist.firstName}</label>
                         <input 
                           type="text" 
                           required
@@ -142,7 +165,7 @@ export const Waitlist: React.FC = () => {
                         />
                       </div>
                       <div>
-                        <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Nachname</label>
+                        <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">{t.waitlist.lastName}</label>
                         <input 
                           type="text" 
                           required
@@ -154,7 +177,7 @@ export const Waitlist: React.FC = () => {
                     </div>
 
                     <div>
-                      <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">E-Mail-Adresse</label>
+                      <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">{t.waitlist.email}</label>
                       <input 
                         type="email" 
                         required
@@ -165,7 +188,7 @@ export const Waitlist: React.FC = () => {
                     </div>
 
                     <div>
-                      <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Telefonnummer (optional)</label>
+                      <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">{t.waitlist.phone}</label>
                       <input 
                         type="tel" 
                         className="w-full bg-gray-50 border-none rounded-xl p-4 text-dark focus:ring-2 focus:ring-primary/20 transition-all"
@@ -175,16 +198,15 @@ export const Waitlist: React.FC = () => {
                     </div>
 
                     <div>
-                      <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Interesse</label>
+                      <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">{t.waitlist.interestLabel}</label>
                       <select 
                         className="w-full bg-gray-50 border-none rounded-xl p-4 text-dark focus:ring-2 focus:ring-primary/20 transition-all font-medium appearance-none"
                         value={formData.interest}
                         onChange={e => setFormData({...formData, interest: e.target.value})}
                       >
-                        <option value="pflege-wg">24/7 Pflege-WG (Warteliste)</option>
-                        <option value="mobile-pflege">Mobile Pflege & Hausbesuche</option>
-                        <option value="checklisten">Nur Whitepaper & Checklisten</option>
-                        <option value="beratung">Allgemeine Beratung für Angehörige</option>
+                        {t.waitlist.interestOptions.map((opt) => (
+                          <option key={opt.value} value={opt.value}>{opt.label}</option>
+                        ))}
                       </select>
                     </div>
 
@@ -197,9 +219,7 @@ export const Waitlist: React.FC = () => {
                           checked={formData.consent_privacy}
                           onChange={e => setFormData({...formData, consent_privacy: e.target.checked})}
                         />
-                        <span className="text-xs text-gray-500 leading-relaxed group-hover:text-gray-700 transition-colors">
-                          Ich stimme zu, dass meine Angaben zur Kontaktaufnahme und für die Warteliste gespeichert werden. <a href="/datenschutz" target="_blank" className="text-primary underline">Datenschutzerklärung</a>.
-                        </span>
+                        {renderConsentLabel()}
                       </label>
                     </div>
 
@@ -217,12 +237,12 @@ export const Waitlist: React.FC = () => {
                       {isLoading ? (
                         <>
                           <Loader2 className="animate-spin" />
-                          Wird gesendet...
+                          {t.waitlist.sending}
                         </>
                       ) : (
                         <>
                           <Send size={20} />
-                          Eintragen & Whitepaper erhalten
+                          {t.waitlist.submitButton}
                         </>
                       )}
                     </button>
