@@ -42,6 +42,7 @@ export const Waitlist: React.FC = () => {
         },
         body: JSON.stringify({
           ...formData,
+          lang: currentLang,
           source: `website_waitlist_page_${currentLang}`
         }),
       });
