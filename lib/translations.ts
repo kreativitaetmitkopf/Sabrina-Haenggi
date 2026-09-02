@@ -277,17 +277,17 @@ export const TRANSLATIONS = {
       infoBoxDesc: "Hier finden Sie erste Informationen zur Pflege-WG und unseren Abläufen.",
       btnDownload: "Broschüre herunterladen",
       alertMsg: "Download für {file} startet...",
-      subtext: "Wir haben Ihnen diese Informationen zusätzlich an Ihre angegebene E-Mail-Adresse gesendet.",
+      subtext: "Wir haben Ihnen die Checkliste soeben per E-Mail geschickt. Falls sie nicht ankommt, prüfen Sie bitte auch den Spam-Ordner.",
       btnHome: "Zurück zur Startseite"
     },
     thankYou: {
-      title: "Nur noch ein Schritt!",
-      optInTitle: "Double Opt-In Erforderlich",
-      optInDesc: "Um Missbrauch zu vermeiden und Ihre Daten zu schützen, haben wir Ihnen soeben eine Bestätigungs-E-Mail gesendet.",
-      msg: "Bitte öffnen Sie Ihr E-Mail-Postfach und klicken Sie auf den Link in der E-Mail. {br} {strongStart}Erst danach startet Ihr Download automatisch.{strongEnd}",
-      noEmail: "Keine E-Mail erhalten? Bitte prüfen Sie auch den Spam-Ordner.",
-      btnHome: "Zurück zur Startseite"
-    },
+      title: "Vielen Dank!",
+    optInTitle: "Ihre Unterlage ist unterwegs",
+    optInDesc: "Wir haben Ihnen die Unterlage soeben als PDF an Ihre E-Mail-Adresse geschickt.",
+    msg: "Bitte öffnen Sie Ihr E-Mail-Postfach. {strongStart}Der Anhang liegt direkt in der E-Mail.{strongEnd}",
+    noEmail: "Keine E-Mail erhalten? Bitte prüfen Sie auch den Spam-Ordner.",
+    btnHome: "Zurück zur Startseite"
+  },
     confirmSubscription: {
       verifying: "E-Mail wird bestätigt...",
       verifyingDesc: "Wir prüfen Ihre Anfrage.",
