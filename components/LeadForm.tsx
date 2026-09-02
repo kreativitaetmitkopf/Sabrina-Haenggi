@@ -3,7 +3,7 @@ import { Input } from './Input';
 import { Button } from './Button';
 import { Checkbox } from './Checkbox';
 import { LeadMagnet, LeadFormData } from '../types';
-import { Lock, Download } from 'lucide-react';
+import { Lock, Mail } from 'lucide-react';
 import { Language, TRANSLATIONS } from '../lib/translations';
 
 interface LeadFormProps {
@@ -56,8 +56,13 @@ export const LeadForm: React.FC<LeadFormProps> = ({ magnet, onSuccess }) => {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!formData.email || !emailRegex.test(formData.email)) {
       newErrors.email = valMsg.email;
-    } else if (formData.email.toLowerCase().includes("test")) {
-       newErrors.email = valMsg.emailReal;
+    } else {
+      // Nur offensichtliche Platzhalter ablehnen, nicht jede Adresse,
+      // in der irgendwo "test" vorkommt (z.B. protestant@...).
+      const lokalerTeil = formData.email.toLowerCase().split("@")[0];
+      if (/^(test|abc|asdf|xxx)/.test(lokalerTeil)) {
+        newErrors.email = valMsg.emailReal;
+      }
     }
     
     const phoneRegex = /^(\+|00|0)[1-9][0-9 \-\(\)\.]{7,20}$/;
@@ -88,7 +93,8 @@ export const LeadForm: React.FC<LeadFormProps> = ({ magnet, onSuccess }) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...formData,
-          magnetSlug: magnet.slug
+          magnetSlug: magnet.slug,
+          lang: currentLang
         }),
       });
 
@@ -98,13 +104,9 @@ export const LeadForm: React.FC<LeadFormProps> = ({ magnet, onSuccess }) => {
         throw new Error(data.error || 'An error occurred.');
       }
 
-      // Success: Proceed to Download
-      if (data.downloadUrl) {
-        onSuccess();
-        setTimeout(() => {
-          window.location.href = data.downloadUrl;
-        }, 500);
-      }
+      // Die Unterlage wird per E-Mail verschickt, es gibt keinen
+      // Download-Link mehr. Deshalb direkt zur Bestaetigungsseite.
+      onSuccess();
 
     } catch (err: any) {
       console.error("Submission Error:", err);
@@ -213,7 +215,7 @@ export const LeadForm: React.FC<LeadFormProps> = ({ magnet, onSuccess }) => {
         )}
 
         <Button type="submit" fullWidth isLoading={isLoading} className="mt-2">
-            <Download className="mr-2 h-5 w-5" />
+            <Mail className="mr-2 h-5 w-5" />
             {t.downloadDetail.orderBtn}
         </Button>
 
