@@ -1,0 +1,20 @@
+{
+  "redirects": [
+    {
+      "source": "/fb",
+      "destination": "/de?utm_source=facebook&utm_medium=social&utm_campaign=profil",
+      "permanent": false
+    },
+    {
+      "source": "/wochenblatt",
+      "destination": "/de?utm_source=wochenblatt&utm_medium=print&utm_campaign=anzeige",
+      "permanent": false
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/((?!api/).*)",
+      "destination": "/index.html"
+    }
+  ]
+}
