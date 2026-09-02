@@ -229,8 +229,8 @@ export const TRANSLATIONS = {
       email: "E-Mail-Adresse",
       phone: "Handynummer",
       consent: "Ich stimme der Datenverarbeitung zu. {linkStart}Datenschutz{linkEnd}",
-      orderBtn: "Kostenpflichtig bestellen (0€)",
-      subtext: "Der Download startet automatisch nach dem Klick. Zusätzlich erhalten Sie den Link per E-Mail.",
+      orderBtn: "Jetzt kostenlos anfordern",
+      subtext: "Sie erhalten die Unterlage sofort per E-Mail.",
       validation: {
         firstName: "Bitte geben Sie Ihren Vornamen an.",
         lastName: "Bitte geben Sie Ihren Nachnamen an.",
@@ -546,8 +546,8 @@ export const TRANSLATIONS = {
       email: "Correo electrónico",
       phone: "Teléfono móvil",
       consent: "Acepto el tratamiento de mis datos. {linkStart}Privacidad{linkEnd}",
-      orderBtn: "Solicitar gratis (0 €)",
-      subtext: "La descarga comenzará automáticamente tras hacer clic. Además, recibirá el enlace por correo electrónico.",
+      orderBtn: "Solicítalo ahora de forma gratuita",
+      subtext: "Recibirá el documento inmediatamente por correo electrónico.",
       validation: {
         firstName: "Por favor, indique su nombre.",
         lastName: "Por favor, indique sus apellidos.",
@@ -863,8 +863,8 @@ export const TRANSLATIONS = {
       email: "Email Address",
       phone: "Mobile Number",
       consent: "I agree to the data processing. {linkStart}Privacy Policy{linkEnd}",
-      orderBtn: "Order for free (0€)",
-      subtext: "The download will start automatically. You will also receive the link via email.",
+      orderBtn: "Request it now for free",
+      subtext: "You will receive the document by email straight away.",
       validation: {
         firstName: "Please enter your first name.",
         lastName: "Please enter your last name.",
